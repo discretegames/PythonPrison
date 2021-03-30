@@ -1,4 +1,2 @@
-Python 3.9.2
-pygame
-
-More?
+# game built in Python 3.9.2
+pygame >= 2.0.1
