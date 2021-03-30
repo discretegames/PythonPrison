@@ -7,6 +7,11 @@ class C:
 	GRASS_COLOR = 120, 200, 70
 	LEVEL_COLOR = 60, 60, 60
 	NORTH = 0
-	EAST = 90
 	SOUTH = 180
-	WEST = 270
+	WEST = 90
+	EAST = 270
+	PLAYER_SPEED = 40
+
+if __name__ == "__main__":
+	import code.game
+	code.game.run_game_subdir()
