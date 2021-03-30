@@ -1,6 +1,6 @@
 import os
 import pygame
-from code import *
+from code.constants import *
 
 def asset_path(filename, ext=''):
 	if ext and not ext.startswith('.'):
@@ -11,3 +11,6 @@ def load_image(name, resize=C.GRID_SIZE):
 	image = pygame.image.load(asset_path(name, 'png'))
 	w, h = image.get_rect().size
 	return pygame.transform.smoothscale(image, (resize, resize))
+
+def center(bigger, smaller=C.GRID_SIZE):
+	return (bigger - smaller) // 2
