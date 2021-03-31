@@ -8,7 +8,7 @@ def init_game():
 	# noinspection PyGlobalUndefined
 	global screen, player, level
 	pygame.init()
-	#pygame.key.set_repeat(150, 80)
+	pygame.key.set_repeat(200, 100)
 	pygame.display.set_caption(C.SCREEN_TITLE)
 	screen = pygame.display.set_mode(C.SCREEN_SIZE)
 	player = Player()
@@ -28,25 +28,37 @@ def run_game():
 	running = True
 	clock = pygame.time.Clock()
 
+	move_method = True
+
 	while running:
 		dt = clock.tick(C.FPS) / 1000
+		dx, dy = 0, 0
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				running = False
+			if event.type == pygame.KEYDOWN and move_method:
+				if event.key in (pygame.K_w, pygame.K_UP):
+					dy -= 1
+				elif event.key in (pygame.K_s, pygame.K_DOWN):
+					dy += 1
+				elif event.key in (pygame.K_a, pygame.K_LEFT):
+					dx -= 1
+				elif event.key in (pygame.K_d, pygame.K_RIGHT):
+					dx += 1
 
-		dx, dy = 0, 0
-		keys = pygame.key.get_pressed()
-		if keys[pygame.K_w] or keys[pygame.K_UP]:
-			dy -= 1
-		if keys[pygame.K_s] or keys[pygame.K_DOWN]:
-			dy += 1
-		if keys[pygame.K_a] or keys[pygame.K_LEFT]:
-			dx -= 1
-		if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-			dx += 1
+		if not move_method:
+			dx, dy = 0, 0
+			keys = pygame.key.get_pressed()
+			if keys[pygame.K_w] or keys[pygame.K_UP]:
+				dy -= 1
+			if keys[pygame.K_s] or keys[pygame.K_DOWN]:
+				dy += 1
+			if keys[pygame.K_a] or keys[pygame.K_LEFT]:
+				dx -= 1
+			if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+				dx += 1
 
 		# -stepped diagonal movement would be nice
-		# -not crucial but last wasd key pressed should have precedence
 
 		player.update(dt, dx, dy)
 		level.move(player)

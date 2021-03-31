@@ -10,7 +10,7 @@ class C:
 	SOUTH = 180
 	WEST = 90
 	EAST = 270
-	PLAYER_SPEED = 40
+	PLAYER_SPEED = 15
 
 if __name__ == "__main__":
 	import code.game
