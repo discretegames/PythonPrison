@@ -8,7 +8,6 @@ def init_game():
 	# noinspection PyGlobalUndefined
 	global screen, player, level
 	pygame.init()
-	pygame.key.set_repeat(200, 100)
 	pygame.display.set_caption(C.SCREEN_TITLE)
 	screen = pygame.display.set_mode(C.SCREEN_SIZE)
 	player = Player()
@@ -28,7 +27,8 @@ def run_game():
 	running = True
 	clock = pygame.time.Clock()
 
-	move_method = True
+	# TODO shift to sprint with both movement types
+	move_method = False
 
 	while running:
 		dt = clock.tick(C.FPS) / 1000
