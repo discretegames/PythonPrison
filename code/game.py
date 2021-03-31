@@ -9,6 +9,7 @@ def init_game():
 	global screen, player, level
 	pygame.init()
 	pygame.display.set_caption(C.SCREEN_TITLE)
+	pygame.key.set_repeat() # no args intentionally
 	screen = pygame.display.set_mode(C.SCREEN_SIZE)
 	player = Player()
 	level = Level(player)
@@ -27,16 +28,16 @@ def run_game():
 	running = True
 	clock = pygame.time.Clock()
 
-	# TODO shift to sprint with both movement types
-	move_method = False
-
 	while running:
 		dt = clock.tick(C.FPS) / 1000
+		keys = pygame.key.get_pressed()
+		sprinting = keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]
 		kx, ky = 0, 0
+
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				running = False
-			if event.type == pygame.KEYDOWN and move_method:
+			if not sprinting and event.type == pygame.KEYDOWN:
 				if event.key in (pygame.K_w, pygame.K_UP):
 					ky -= 1
 				elif event.key in (pygame.K_s, pygame.K_DOWN):
@@ -46,9 +47,7 @@ def run_game():
 				elif event.key in (pygame.K_d, pygame.K_RIGHT):
 					kx += 1
 
-		if not move_method:
-			kx, ky = 0, 0
-			keys = pygame.key.get_pressed()
+		if sprinting:
 			if keys[pygame.K_w] or keys[pygame.K_UP]:
 				ky -= 1
 			if keys[pygame.K_s] or keys[pygame.K_DOWN]:
