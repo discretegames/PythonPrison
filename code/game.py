@@ -32,35 +32,33 @@ def run_game():
 
 	while running:
 		dt = clock.tick(C.FPS) / 1000
-		dx, dy = 0, 0
+		kx, ky = 0, 0
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				running = False
 			if event.type == pygame.KEYDOWN and move_method:
 				if event.key in (pygame.K_w, pygame.K_UP):
-					dy -= 1
+					ky -= 1
 				elif event.key in (pygame.K_s, pygame.K_DOWN):
-					dy += 1
+					ky += 1
 				elif event.key in (pygame.K_a, pygame.K_LEFT):
-					dx -= 1
+					kx -= 1
 				elif event.key in (pygame.K_d, pygame.K_RIGHT):
-					dx += 1
+					kx += 1
 
 		if not move_method:
-			dx, dy = 0, 0
+			kx, ky = 0, 0
 			keys = pygame.key.get_pressed()
 			if keys[pygame.K_w] or keys[pygame.K_UP]:
-				dy -= 1
+				ky -= 1
 			if keys[pygame.K_s] or keys[pygame.K_DOWN]:
-				dy += 1
+				ky += 1
 			if keys[pygame.K_a] or keys[pygame.K_LEFT]:
-				dx -= 1
+				kx -= 1
 			if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-				dx += 1
+				kx += 1
 
-		# -stepped diagonal movement would be nice
-
-		player.update(dt, dx, dy)
+		player.update(dt, kx, ky)
 		level.move(player)
 
 		draw_game()
