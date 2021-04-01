@@ -15,9 +15,17 @@ class GridCell(ABC):
 		return False
 
 	@staticmethod
+	# Returns the created GridCell or the rotation angle integer for the player's position.
 	def create_grid_cell(modifier, content):
+		modifier, content = modifier.upper(), content.upper()
 		if modifier == 'P':
-			return 'player'
+			if content == 'S':
+				return C.SOUTH
+			if content == 'E':
+				return C.EAST
+			if content == 'W':
+				return C.WEST
+			return C.NORTH
 		if modifier == '|':
 			if content == '#':
 				return Wall()

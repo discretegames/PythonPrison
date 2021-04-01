@@ -1,10 +1,9 @@
 import sys
-import pygame
 from code.player import Player
 from code.level import Level
 from code.helpers import *
 
-running = False
+running: bool = False
 
 def init_game():
 	# noinspection PyGlobalUndefined
@@ -13,8 +12,9 @@ def init_game():
 	pygame.display.set_caption(C.SCREEN_TITLE)
 	pygame.key.set_repeat() # no args intentionally
 	screen = pygame.display.set_mode(C.SCREEN_SIZE)
-	level = Level('testlevel.txt')
-	player = Player(level.player_start_pos)
+	player = Player()
+	level = Level(player, 'testlevel.txt')
+	player.change_level(level)
 
 def exit_game():
 	pygame.quit()
@@ -66,8 +66,8 @@ def run_game():
 	while running:
 		dt = clock.tick(C.FPS) / 1000
 		kx, ky = get_inputs()
-		player.update(dt, kx, ky, level)
-		level.update(player)
+		player.update(dt, kx, ky)
+		level.update()
 		draw_game()
 
 	exit_game()

@@ -30,6 +30,8 @@ C* = cop that can be bribed (gotten rid of) by pushing the * character into them
 or use 1* for cop that collects one *, 2* for cop that collects 2, etc. 0* for ten
 
 
+PN PE PS PW = start player facing N E S or W
+
 PP = starting location of player
 EE = on corner of execution area, only 2 makes sense, shouldn't overlap QQs
 QQ = one corner of output area

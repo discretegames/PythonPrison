@@ -1,4 +1,3 @@
-import pygame
 from code.helpers import *
 from gridcell import GridCell
 
@@ -8,8 +7,10 @@ class Level:
 	width: int = 0
 	height: int = 0
 	player_start_pos: tuple = 0, 0
+	player_start_dir: int = C.NORTH
 
-	def __init__(self, filename):
+	def __init__(self, player, filename):
+		self.player = player
 		self.load_level(filename)
 		self.draw_rect = pygame.Rect(0, 0, C.GRID_SIZE * self.width, C.GRID_SIZE * self.height)
 
@@ -34,7 +35,8 @@ class Level:
 				modifier = file_grid_lines[y][2*x]
 				content = file_grid_lines[y][2*x+1]
 				cell = GridCell.create_grid_cell(modifier, content)
-				if cell == 'player':
+				if isinstance(cell, int):
+					self.player_start_dir = cell
 					self.player_start_pos = x, y
 				else:
 					self.grid[y][x] = cell
@@ -43,9 +45,9 @@ class Level:
 	def size(self):
 		return self.width, self.height
 
-	def update(self, player):
-		x = player.draw_rect.x - player.fx * C.GRID_SIZE
-		y = player.draw_rect.y - player.fy * C.GRID_SIZE
+	def update(self):
+		x = self.player.draw_rect.x - self.player.fx * C.GRID_SIZE
+		y = self.player.draw_rect.y - self.player.fy * C.GRID_SIZE
 		self.draw_rect.update(x, y, *self.draw_rect.size)
 
 	# TODO move and tile background properly
