@@ -39,7 +39,7 @@ class Player:
 		else:
 			self.set_direction(C.SOUTH if dy == 1 else C.NORTH)
 
-		if self.level.attempt_move(self, dx, dy):
+		if self.level.attempt_move(self.x, self.y, dx, dy):
 			self.dx, self.dy = dx, dy
 			self.moving = True
 
@@ -50,7 +50,8 @@ class Player:
 	def stop_moving(self, finish_move=True):
 		self.moving = False
 		if finish_move:
-			if self.direction in (C.EAST, C.WEST):
+			self.level.finish_move()
+			if self.dx != 0:
 				self.x += self.dx
 			else:
 				self.y += self.dy
@@ -59,7 +60,7 @@ class Player:
 
 	def update(self, dt, kx, ky):
 		if self.moving:
-			if self.direction in (C.EAST, C.WEST):
+			if self.dx != 0:
 				self.fx += self.dx * dt * C.PLAYER_SPEED
 				if abs(self.x - self.fx) >= 1:
 					self.stop_moving()

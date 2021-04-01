@@ -1,5 +1,4 @@
 import os
-import string
 import pygame
 
 def asset_path(filename, folder='assets'):
@@ -22,21 +21,16 @@ def center1D(smaller, bigger):
 def center2D(smaller, bigger):
 	return center1D(smaller[0], bigger[0]), center1D(smaller[1], bigger[1])
 
-def pos_in_dir(pos, direction):
-	x, y = pos
-	if direction == C.NORTH:
-		y -= 1
-
 # Constants
 class C:
 	pygame.init() # Initialize pygame so constant fonts and such can be created.
 	SCREEN_TITLE = 'PyWeek31 Entry - by discretegames'
-	SCREEN_SIZE = 1920, 1080 #1600, 900
+	SCREEN_SIZE = 1920, 1080 # 1600, 900
 	SCREEN_WIDTH, SCREEN_HEIGHT = SCREEN_SIZE
 	FPS = 60
 	GRID_SCALE = 40
 	GRID_SIZE = GRID_SCALE, GRID_SCALE
-	PLAYER_SPEED = 45
+	PLAYER_SPEED = 4
 	LEVEL_COLOR = 100, 100, 100
 	CHAR_TEXT_COLOR = 220, 220, 220
 	LOCKED_CHAR_TEXT_COLOR = 180, 180, 180

@@ -1,3 +1,4 @@
+import string
 from abc import ABC, abstractmethod
 from code.helpers import *
 
@@ -6,6 +7,7 @@ class GridCell(ABC):
 	def draw(self, screen, x, y):
 		pass
 
+	# TODO this will need to change when cops to bribe are added, since they're occupied but can be pushed onto
 	@property
 	def pushable(self):
 		return False
