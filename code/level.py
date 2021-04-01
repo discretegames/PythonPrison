@@ -23,7 +23,7 @@ class Push:
 		elif self.dy == 1:
 			return x == self.x and self.y1 <= y < self.y2
 		elif self.dy == -1:
-			return x == self.x and self.y1 >= y < self.y2
+			return x == self.x and self.y1 >= y > self.y2
 
 class Level:
 	grid: list = []
@@ -84,12 +84,9 @@ class Level:
 				draw_x = self.draw_rect.x + C.GRID_SCALE * x
 				if self.grid[y][x]:
 					if self.push and self.push.in_push(x, y):
-						thing = self.player.draw_rect.y - self.player.fy * C.GRID_SCALE
-						yt = draw_y - thing
-						#yt += (self.player.fy % 1) * C.GRID_SCALE# - C.GRID_SCALE
-						gx = self.player.draw_rect.right
-						# TODO asap
-						self.grid[y][x].draw(screen, gx, draw_y)
+						push_x = self.player.draw_rect.x + C.GRID_SCALE * (x - self.player.x)
+						push_y = self.player.draw_rect.y + C.GRID_SCALE * (y - self.player.y)
+						self.grid[y][x].draw(screen, push_x, push_y)
 					else:
 						self.grid[y][x].draw(screen, draw_x, draw_y)
 
@@ -139,8 +136,6 @@ class Level:
 			for y in range(p.y2, p.y1, -1):
 				self.grid[y][p.x] = self.grid[y - 1][p.x]
 		self.grid[p.y1][p.x1] = None
-
-	# TODO draw pushes properly
 
 if __name__ == "__main__":
 	import code.game
