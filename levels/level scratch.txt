@@ -20,7 +20,7 @@ A is modifier, B is content
 space is the only character that can't be pushed around since it is the default empty
 
 
-|# = fence
+|# = fence/wall
 |  = empty
    = empty
 | or space followed by anything else is the same as \ followed by that thing

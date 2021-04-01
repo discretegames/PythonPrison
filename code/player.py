@@ -12,9 +12,7 @@ class Player:
 	level = None
 
 	def __init__(self):
-		cx = center(C.SCREEN_WIDTH, C.GRID_SIZE)
-		cy = center(C.SCREEN_HEIGHT, C.GRID_SIZE)
-		self.draw_rect = pygame.Rect(cx, cy, C.GRID_SIZE, C.GRID_SIZE)
+		self.draw_rect = pygame.Rect(center2D(C.GRID_SIZE, C.SCREEN_SIZE), C.GRID_SIZE)
 		self.img = C.PLAYER_IMG
 		self.sprite = pygame.transform.rotate(self.img, C.SOUTH)
 
@@ -41,6 +39,7 @@ class Player:
 		else:
 			self.set_direction(C.SOUTH if dy == 1 else C.NORTH)
 
+		# TODO this will change with pushable stuff
 		if not self.level.is_solid(self.x + dx, self.y + dy):
 			self.dx, self.dy = dx, dy
 			self.moving = True

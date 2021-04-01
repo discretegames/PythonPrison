@@ -4,17 +4,18 @@ from code.level import Level
 from code.helpers import *
 
 running: bool = False
+screen: pygame.Surface
+player: Player
+level: Level
 
 def init_game():
-	# noinspection PyGlobalUndefined
 	global screen, player, level
 	pygame.init()
 	pygame.display.set_caption(C.SCREEN_TITLE)
 	pygame.key.set_repeat() # no args intentionally
 	screen = pygame.display.set_mode(C.SCREEN_SIZE)
 	player = Player()
-	level = Level(player, 'testlevel.txt')
-	player.change_level(level)
+	load_level('testlevel.txt')
 
 def exit_game():
 	pygame.quit()
@@ -26,6 +27,11 @@ def draw_game():
 	player.draw(screen)
 	pygame.display.update()
 
+def load_level(filename):
+	global level
+	level = Level(player, filename)
+	player.change_level(level)
+
 def get_inputs():
 	keys = pygame.key.get_pressed()
 	sprinting = keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]
@@ -35,15 +41,19 @@ def get_inputs():
 		if event.type == pygame.QUIT:
 			global running
 			running = False
-		if not sprinting and event.type == pygame.KEYDOWN:
-			if event.key in (pygame.K_w, pygame.K_UP):
-				ky -= 1
-			elif event.key in (pygame.K_s, pygame.K_DOWN):
-				ky += 1
-			elif event.key in (pygame.K_a, pygame.K_LEFT):
-				kx -= 1
-			elif event.key in (pygame.K_d, pygame.K_RIGHT):
-				kx += 1
+		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_ESCAPE:
+				load_level('testlevel.txt') # reload level
+
+			if not sprinting:
+				if event.key in (pygame.K_w, pygame.K_UP):
+					ky -= 1
+				elif event.key in (pygame.K_s, pygame.K_DOWN):
+					ky += 1
+				elif event.key in (pygame.K_a, pygame.K_LEFT):
+					kx -= 1
+				elif event.key in (pygame.K_d, pygame.K_RIGHT):
+					kx += 1
 
 	if sprinting:
 		if keys[pygame.K_w] or keys[pygame.K_UP]:

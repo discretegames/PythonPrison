@@ -12,7 +12,7 @@ class Level:
 	def __init__(self, player, filename):
 		self.player = player
 		self.load_level(filename)
-		self.draw_rect = pygame.Rect(0, 0, C.GRID_SIZE * self.width, C.GRID_SIZE * self.height)
+		self.draw_rect = pygame.Rect(0, 0, C.GRID_SCALE * self.width, C.GRID_SCALE * self.height)
 
 	def load_level(self, filename):
 		path = asset_path(filename, 'levels')
@@ -31,9 +31,10 @@ class Level:
 		self.grid = [[None] * self.width for _ in range(self.height)]
 
 		for y in range(self.height):
+			length = len(file_grid_lines[y])
 			for x in range(self.width):
-				modifier = file_grid_lines[y][2*x]
-				content = file_grid_lines[y][2*x+1]
+				modifier = file_grid_lines[y][2 * x] if 2 * x < length else ' '
+				content = file_grid_lines[y][2 * x + 1] if 2 * x + 1 < length else ' '
 				cell = GridCell.create_grid_cell(modifier, content)
 				if isinstance(cell, int):
 					self.player_start_dir = cell
@@ -46,8 +47,8 @@ class Level:
 		return self.width, self.height
 
 	def update(self):
-		x = self.player.draw_rect.x - self.player.fx * C.GRID_SIZE
-		y = self.player.draw_rect.y - self.player.fy * C.GRID_SIZE
+		x = self.player.draw_rect.x - self.player.fx * C.GRID_SCALE
+		y = self.player.draw_rect.y - self.player.fy * C.GRID_SCALE
 		self.draw_rect.update(x, y, *self.draw_rect.size)
 
 	# TODO move and tile background properly
@@ -61,10 +62,11 @@ class Level:
 	def draw(self, screen):
 		pygame.draw.rect(screen, C.LEVEL_COLOR, self.draw_rect)
 		for y in range(self.height):
-			draw_y = self.draw_rect.y + C.GRID_SIZE * y
+			draw_y = self.draw_rect.y + C.GRID_SCALE * y
 			for x in range(self.width):
-				draw_x = self.draw_rect.x + C.GRID_SIZE * x
+				draw_x = self.draw_rect.x + C.GRID_SCALE * x
 				if self.grid[y][x]:
+
 					self.grid[y][x].draw(screen, draw_x, draw_y)
 
 	def in_bounds(self, x, y):
