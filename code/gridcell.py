@@ -7,10 +7,6 @@ class GridCell(ABC):
 		pass
 
 	@property
-	def solid(self):
-		return True
-
-	@property
 	def pushable(self):
 		return False
 
@@ -40,7 +36,6 @@ class Wall(GridCell):
 		screen.blit(C.WALL_IMG, (x, y))
 
 class Char(GridCell):
-
 	def __init__(self, char, locked=False):
 		self.char = char
 		self.locked = locked
@@ -62,6 +57,7 @@ class Char(GridCell):
 
 	def draw(self, screen, x, y):
 		screen.blit(self.img, (x, y))
+
 
 if __name__ == "__main__":
 	import code.game

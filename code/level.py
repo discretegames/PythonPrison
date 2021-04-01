@@ -9,8 +9,7 @@ class Level:
 	player_start_pos: tuple = 0, 0
 	player_start_dir: int = C.NORTH
 
-	def __init__(self, player, filename):
-		self.player = player
+	def __init__(self, filename):
 		self.load_level(filename)
 		self.draw_rect = pygame.Rect(0, 0, C.GRID_SCALE * self.width, C.GRID_SCALE * self.height)
 
@@ -46,18 +45,10 @@ class Level:
 	def size(self):
 		return self.width, self.height
 
-	def update(self):
-		x = self.player.draw_rect.x - self.player.fx * C.GRID_SCALE
-		y = self.player.draw_rect.y - self.player.fy * C.GRID_SCALE
+	def update(self, player):
+		x = player.draw_rect.x - player.fx * C.GRID_SCALE
+		y = player.draw_rect.y - player.fy * C.GRID_SCALE
 		self.draw_rect.update(x, y, *self.draw_rect.size)
-
-	# TODO move and tile background properly
-	# def draw_background(self, screen):
-	# 	w, h = C.BACKGROUND_IMG.get_size()
-	# 	screen.blit(C.BACKGROUND_IMG, self.draw_rect)
-	# 	screen.blit(C.BACKGROUND_IMG, self.draw_rect.move(0, -h))
-	# 	screen.blit(C.BACKGROUND_IMG, self.draw_rect.move(-w, 0))
-	# 	screen.blit(C.BACKGROUND_IMG, self.draw_rect.move(-w, -h))
 
 	def draw(self, screen):
 		pygame.draw.rect(screen, C.LEVEL_COLOR, self.draw_rect)
@@ -72,11 +63,45 @@ class Level:
 	def in_bounds(self, x, y):
 		return 0 <= x < self.width and 0 <= y < self.height
 
-	def is_solid(self, x, y):
-		if self.in_bounds(x, y) and self.grid[y][x]:
-			return self.grid[y][x].solid
-		return False
+	def cell_occupied(self, x, y):
+		return self.in_bounds(x, y) and self.grid[y][x]
 
+	def attempt_move(self, player, dx, dy):
+		x, y = player.x + dx, player.y + dy
+		if not self.cell_occupied(x, y):
+			return True # Always allow motion into empty spaces, even out of bounds.
+		if not self.grid[y][x].pushable:
+			return False
+
+		x_start, y_start = x, y
+		while self.cell_occupied(x, y) and self.grid[y][x].pushable:
+			x += dx
+			y += dy
+
+		if not self.in_bounds(x, y):
+			return False # Things can't be pushed out of bounds, even though the player is allowed out there.
+		if self.cell_occupied(x, y) and not self.grid[y][x].pushable:
+			return False # Can't push something not pushable.
+
+		self.apply_push(x_start, y_start, x, y, dx, dy)
+		return True
+
+	def apply_push(self, x1, y1, x2, y2, dx, dy): # Assumes push is valid.
+		if dx == -1:
+			for x in range(x2, x1):
+				self.grid[y1][x] = self.grid[y1][x + 1]
+		elif dx == 1:
+			for x in range(x2, x1, -1):
+				self.grid[y1][x] = self.grid[y1][x - 1]
+		elif dy == -1:
+			for y in range(y2, y1):
+				self.grid[y][x1] = self.grid[y + 1][x1]
+		elif dy == 1:
+			for y in range(y2, y1, -1):
+				self.grid[y][x1] = self.grid[y - 1][x1]
+		self.grid[y1][x1] = None
+
+	# TODO draw pushes properly
 
 if __name__ == "__main__":
 	import code.game

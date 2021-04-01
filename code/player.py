@@ -39,8 +39,7 @@ class Player:
 		else:
 			self.set_direction(C.SOUTH if dy == 1 else C.NORTH)
 
-		# TODO this will change with pushable stuff
-		if not self.level.is_solid(self.x + dx, self.y + dy):
+		if self.level.attempt_move(self, dx, dy):
 			self.dx, self.dy = dx, dy
 			self.moving = True
 
@@ -71,6 +70,7 @@ class Player:
 		elif kx != 0 or ky != 0:
 			dx, dy = (kx, 0) if kx != 0 else (0, ky)
 			self.try_start_moving(dx, dy)
+
 
 if __name__ == "__main__":
 	import code.game

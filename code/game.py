@@ -15,7 +15,7 @@ def init_game():
 	pygame.key.set_repeat() # no args intentionally
 	screen = pygame.display.set_mode(C.SCREEN_SIZE)
 	player = Player()
-	load_level('testlevel.txt')
+	load_level('biglevel.txt')
 
 def exit_game():
 	pygame.quit()
@@ -29,7 +29,7 @@ def draw_game():
 
 def load_level(filename):
 	global level
-	level = Level(player, filename)
+	level = Level(filename)
 	player.change_level(level)
 
 def get_inputs():
@@ -43,7 +43,7 @@ def get_inputs():
 			running = False
 		if event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_ESCAPE:
-				load_level('testlevel.txt') # reload level
+				load_level('biglevel.txt') # reload level
 
 			if not sprinting:
 				if event.key in (pygame.K_w, pygame.K_UP):
@@ -77,7 +77,7 @@ def run_game():
 		dt = clock.tick(C.FPS) / 1000
 		kx, ky = get_inputs()
 		player.update(dt, kx, ky)
-		level.update()
+		level.update(player)
 		draw_game()
 
 	exit_game()
