@@ -1,5 +1,5 @@
 from code.helpers import *
-from gridcell import GridCell
+from gridcell import GridCell, Char
 
 class Push:
 	def __init__(self, x1, y1, x2, y2, dx, dy):
@@ -136,6 +136,35 @@ class Level:
 			for y in range(p.y2, p.y1, -1):
 				self.grid[y][p.x] = self.grid[y - 1][p.x]
 		self.grid[p.y1][p.x1] = None
+
+	def get_code(self, x1, y1, x2, y2):
+		lines = []
+		min_indent = self.width
+		x1, x2 = min(x1, x2), max(x1, x2)
+		y1, y2 = min(y1, y2), max(y1, y2)
+		for y in range(y1, y2+1):
+			line = []
+			indent = 0
+			indent_over = False
+			for x in range(x1, x2+1):
+				char = self.grid[y][x].char if self.grid[y][x] else ' '
+				line.append(char)
+				if char != ' ':
+					indent_over = True
+				elif not indent_over:
+					indent += 1
+			line = ''.join(line)
+			if not line.lstrip().startswith('#'):
+				min_indent = min(min_indent, indent)
+				lines.append(line)
+
+		return '\n'.join(line[min_indent:] for line in lines)
+
+	def execute(self):
+		print('vRESULTv')
+		code = self.get_code(0, 0, self.width - 1, self.height - 1)
+		exec(code, {}, {})
+		print('^^^^^^^^')
 
 if __name__ == "__main__":
 	import code.game

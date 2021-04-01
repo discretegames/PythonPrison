@@ -3,6 +3,9 @@ from abc import ABC, abstractmethod
 from code.helpers import *
 
 class GridCell(ABC):
+	def __init__(self, char=' '):
+		self.char = char
+
 	@abstractmethod
 	def draw(self, screen, x, y):
 		pass
@@ -39,7 +42,6 @@ class Wall(GridCell):
 
 class Char(GridCell):
 	def __init__(self, char, locked=False):
-		self.char = char
 		self.locked = locked
 		if self.locked:
 			background = C.LOCKED_CHAR_IMG
@@ -49,9 +51,9 @@ class Char(GridCell):
 			text_color = C.CHAR_TEXT_COLOR
 
 		self.img = background.convert_alpha()
-		text = C.CHAR_FONT.render(self.char, True, text_color)
+		text = C.CHAR_FONT.render(char, True, text_color)
 		self.img.blit(text, center2D(text.get_size(), C.GRID_SIZE))
-		super().__init__()
+		super().__init__(char)
 
 	@property
 	def pushable(self):
