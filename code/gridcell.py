@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from code.constants import C
+from code.helpers import *
 
 class GridCell(ABC):
 	@abstractmethod

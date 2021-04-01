@@ -1,10 +1,9 @@
 import pygame
-from code.helpers import center
-from code.constants import C
+from code.helpers import *
 
 class Player:
 	moving: bool
-	direction: int
+	direction: int = C.NORTH
 	x: int
 	y: int
 	fx: float
@@ -19,7 +18,6 @@ class Player:
 		self.draw_rect = pygame.Rect(cx, cy, C.GRID_SIZE, C.GRID_SIZE)
 		self.img = C.PLAYER_IMG
 		self.sprite = pygame.transform.rotate(self.img, C.SOUTH)
-		self.start_moving(C.NORTH) # quickly start and stop move to initialize values
 		self.stop_moving()
 
 	@property
@@ -33,8 +31,12 @@ class Player:
 	def draw(self, screen):
 		screen.blit(self.sprite, self.draw_rect.topleft)
 
-	def start_moving(self, direction):
-		self.direction = direction
+	def start_moving(self, dx, dy):
+		self.dx, self.dy = dx, dy
+		if self.dx != 0:
+			self.direction = C.EAST if self.dx == 1 else C.WEST
+		else:
+			self.direction = C.SOUTH if self.dy == 1 else C.NORTH
 		self.sprite = pygame.transform.rotate(self.img, self.direction)
 		self.moving = True
 
@@ -47,7 +49,7 @@ class Player:
 		self.fx, self.fy = self.x, self.y
 		self.dx, self.dy = 0, 0
 
-	def update(self, dt, kx, ky):
+	def update(self, dt, kx, ky, level):
 		if self.moving:
 			if self.direction in (C.EAST, C.WEST):
 				self.fx += self.dx * dt * C.PLAYER_SPEED
@@ -57,13 +59,10 @@ class Player:
 				self.fy += self.dy * dt * C.PLAYER_SPEED
 				if abs(self.y - self.fy) >= 1:
 					self.stop_moving()
-		else:
-			if kx != 0:
-				self.dx = kx
-				self.start_moving(C.EAST if kx == 1 else C.WEST)
-			elif ky != 0:
-				self.dy = ky
-				self.start_moving(C.SOUTH if ky == 1 else C.NORTH)
+		elif kx != 0 or ky != 0:
+			dx, dy = (kx, 0) if kx != 0 else (0, ky)
+			if not level.is_solid(self.x + dx, self.y + dy):
+				self.start_moving(dx, dy)
 
 if __name__ == "__main__":
 	import code.game

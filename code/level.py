@@ -1,6 +1,5 @@
 import pygame
-from code.constants import C
-from code.helpers import asset_path
+from code.helpers import *
 from gridcell import GridCell
 
 class Level:
@@ -65,6 +64,15 @@ class Level:
 				draw_x = self.draw_rect.x + C.GRID_SIZE * x
 				if self.grid[y][x]:
 					self.grid[y][x].draw(screen, draw_x, draw_y)
+
+	def in_bounds(self, x, y):
+		return 0 <= x < self.width and 0 <= y < self.height
+
+	def is_solid(self, x, y):
+		if self.in_bounds(x, y) and self.grid[y][x]:
+			return self.grid[y][x].solid
+		return False
+
 
 if __name__ == "__main__":
 	import code.game

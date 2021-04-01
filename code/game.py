@@ -1,8 +1,8 @@
 import sys
 import pygame
-from code.constants import C
 from code.player import Player
 from code.level import Level
+from code.helpers import *
 
 running = False
 
@@ -63,14 +63,10 @@ def run_game():
 	global running
 	running = True
 
-	# todo why isn't font anti aliasing working?
-	#font = pygame.font.SysFont(None, 204)
-	#img = font.render('hello', False, (255, 255, 255))
-
 	while running:
 		dt = clock.tick(C.FPS) / 1000
 		kx, ky = get_inputs()
-		player.update(dt, kx, ky)
+		player.update(dt, kx, ky, level)
 		level.update(player)
 		draw_game()
 
