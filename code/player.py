@@ -1,6 +1,6 @@
 import pygame
-from code.helpers import *
-from code.constants import *
+from code.helpers import center
+from code.constants import C
 
 class Player:
 	moving: bool
@@ -12,10 +12,12 @@ class Player:
 	dx: int = 0
 	dy: int = 0
 
-	def __init__(self):
-		self.x, self.y = 10, 0 # TODO get from file eventually
-		self.draw_rect = pygame.Rect(center(C.SCREEN_WIDTH), center(C.SCREEN_HEIGHT), C.GRID_SIZE, C.GRID_SIZE)
-		self.img = load_image('player')
+	def __init__(self, start_pos):
+		self.x, self.y = start_pos
+		cx = center(C.SCREEN_WIDTH, C.GRID_SIZE)
+		cy = center(C.SCREEN_HEIGHT, C.GRID_SIZE)
+		self.draw_rect = pygame.Rect(cx, cy, C.GRID_SIZE, C.GRID_SIZE)
+		self.img = C.PLAYER_IMG
 		self.sprite = pygame.transform.rotate(self.img, C.SOUTH)
 		self.start_moving(C.NORTH) # quickly start and stop move to initialize values
 		self.stop_moving()
@@ -65,4 +67,4 @@ class Player:
 
 if __name__ == "__main__":
 	import code.game
-	code.game.run_game_subdir()
+	code.game.run_game()

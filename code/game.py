@@ -1,8 +1,10 @@
+import sys
 import pygame
-from code.constants import *
-from code.helpers import *
-from code.player import *
-from code.level import *
+from code.constants import C
+from code.player import Player
+from code.level import Level
+
+running = False
 
 def init_game():
 	# noinspection PyGlobalUndefined
@@ -11,62 +13,68 @@ def init_game():
 	pygame.display.set_caption(C.SCREEN_TITLE)
 	pygame.key.set_repeat() # no args intentionally
 	screen = pygame.display.set_mode(C.SCREEN_SIZE)
-	player = Player()
-	level = Level(player)
+	level = Level('testlevel.txt')
+	player = Player(level.player_start_pos)
 
 def exit_game():
 	pygame.quit()
+	sys.exit()
 
 def draw_game():
-	screen.fill(C.GRASS_COLOR)
+	screen.blit(C.BACKGROUND_IMG, (0, 0))
 	level.draw(screen)
 	player.draw(screen)
 	pygame.display.update()
 
+def get_inputs():
+	keys = pygame.key.get_pressed()
+	sprinting = keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]
+	kx, ky = 0, 0
+
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT:
+			global running
+			running = False
+		if not sprinting and event.type == pygame.KEYDOWN:
+			if event.key in (pygame.K_w, pygame.K_UP):
+				ky -= 1
+			elif event.key in (pygame.K_s, pygame.K_DOWN):
+				ky += 1
+			elif event.key in (pygame.K_a, pygame.K_LEFT):
+				kx -= 1
+			elif event.key in (pygame.K_d, pygame.K_RIGHT):
+				kx += 1
+
+	if sprinting:
+		if keys[pygame.K_w] or keys[pygame.K_UP]:
+			ky -= 1
+		if keys[pygame.K_s] or keys[pygame.K_DOWN]:
+			ky += 1
+		if keys[pygame.K_a] or keys[pygame.K_LEFT]:
+			kx -= 1
+		if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+			kx += 1
+
+	return kx, ky
+
 def run_game():
 	init_game()
-	running = True
 	clock = pygame.time.Clock()
+	global running
+	running = True
+
+	# todo why isn't font anti aliasing working?
+	#font = pygame.font.SysFont(None, 204)
+	#img = font.render('hello', False, (255, 255, 255))
 
 	while running:
 		dt = clock.tick(C.FPS) / 1000
-		keys = pygame.key.get_pressed()
-		sprinting = keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]
-		kx, ky = 0, 0
-
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT:
-				running = False
-			if not sprinting and event.type == pygame.KEYDOWN:
-				if event.key in (pygame.K_w, pygame.K_UP):
-					ky -= 1
-				elif event.key in (pygame.K_s, pygame.K_DOWN):
-					ky += 1
-				elif event.key in (pygame.K_a, pygame.K_LEFT):
-					kx -= 1
-				elif event.key in (pygame.K_d, pygame.K_RIGHT):
-					kx += 1
-
-		if sprinting:
-			if keys[pygame.K_w] or keys[pygame.K_UP]:
-				ky -= 1
-			if keys[pygame.K_s] or keys[pygame.K_DOWN]:
-				ky += 1
-			if keys[pygame.K_a] or keys[pygame.K_LEFT]:
-				kx -= 1
-			if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
-				kx += 1
-
+		kx, ky = get_inputs()
 		player.update(dt, kx, ky)
-		level.move(player)
-
+		level.update(player)
 		draw_game()
 
 	exit_game()
 
-def run_game_subdir(change_dir='../'):
-	os.chdir(change_dir)
-	run_game()
-
 if __name__ == "__main__":
-	run_game_subdir()
+	run_game()

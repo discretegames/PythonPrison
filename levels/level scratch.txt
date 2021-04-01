@@ -1,0 +1,42 @@
+Testing
+
+|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#
+|#| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |#
+|#| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |#
+|#| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |#
+|#| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |#
+|#| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |#
+|#| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |#
+|#| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |#
+|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#
+
+every 2 characters is one grid square
+AB where A is the header and B is the tail
+A is modifier, B is content
+
+| as a header = normal usage
+\ as a header = literal usage, e.g. \# creates an actual hashtag the player can push around
+
+space is the only character that can't be pushed around since it is the default empty
+
+
+|# = fence
+|  = empty
+   = empty
+| or space followed by anything else is the same as \ followed by that thing
+! followed by anything means the tail is literal but locked, can't be moved by the player
+
+C* = cop that can be bribed (gotten rid of) by pushing the * character into them (* can be anything)
+or use 1* for cop that collects one *, 2* for cop that collects 2, etc. 0* for ten
+
+
+PP = starting location of player
+EE = on corner of execution area, only 2 makes sense, shouldn't overlap QQs
+QQ = one corner of output area
+
+or maybe go with pushable execution and output blocks? ee EE oo OO
+
+probably need bools for whether player can change the I/O areas
+
+
+make sure output filters for printable ascii, treat tab as 4 spaces, newlines as next lines
