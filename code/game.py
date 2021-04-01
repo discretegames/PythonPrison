@@ -15,7 +15,7 @@ def init_game():
 	pygame.key.set_repeat() # no args intentionally
 	screen = pygame.display.set_mode(C.SCREEN_SIZE)
 	player = Player()
-	load_level('misclevel.txt')
+	load_level('testlevel.txt')
 
 def exit_game():
 	pygame.quit()
@@ -43,7 +43,7 @@ def get_inputs():
 			running = False
 		if event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_ESCAPE:
-				load_level('misclevel.txt') # reload level
+				load_level('testlevel.txt') # reload level
 
 			if not sprinting:
 				if event.key in (pygame.K_w, pygame.K_UP):
