@@ -23,8 +23,10 @@ class GridCell(ABC):
 	# Returns the created GridCell or the rotation angle integer for the player's position.
 	def create_grid_cell(modifier, content):
 		modifier = modifier.lower()
-		if modifier == '#': # Wall
+		if modifier == '@':
 			return Wall()
+		if modifier == '#':
+			return Fence()
 		if modifier == '%':
 			return Door()
 		if modifier == 'c':
@@ -47,6 +49,10 @@ class GridCell(ABC):
 class Wall(GridCell):
 	def draw(self, screen, x, y):
 		screen.blit(C.WALL_IMG, (x, y))
+
+class Fence(GridCell):
+	def draw(self, screen, x, y):
+		screen.blit(C.FENCE_IMG, (x, y))
 
 class Door(GridCell):
 	def draw(self, screen, x, y):

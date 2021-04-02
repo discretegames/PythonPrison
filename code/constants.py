@@ -39,6 +39,7 @@ class C:
 
 	PLAYER_IMG = load_image('player', GRID_SCALE)
 	WALL_IMG = load_image('wall', GRID_SCALE)
+	FENCE_IMG = load_image('fence', GRID_SCALE)
 	CHAR_IMG = load_image('char', GRID_SCALE)
 	DOOR_IMG = load_image('door', GRID_SCALE)
 	COP_IMG = load_image('cop', GRID_SCALE)
