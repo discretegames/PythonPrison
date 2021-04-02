@@ -36,6 +36,7 @@ class C:
 	PLAYER_IMG = load_image('player', GRID_SCALE)
 	WALL_IMG = load_image('wall', GRID_SCALE)
 	CHAR_IMG = load_image('char', GRID_SCALE)
+	DOOR_IMG = load_image('door', GRID_SCALE)
 	LOCKED_CHAR_IMG = load_image('locked', GRID_SCALE)
 	BACKGROUND_IMG = load_image('background', SCREEN_SIZE)
 	CODE_HEADER = 'open=None;p=print;r=range;\n'

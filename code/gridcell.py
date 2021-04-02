@@ -41,6 +41,10 @@ class Wall(GridCell):
 	def draw(self, screen, x, y):
 		screen.blit(C.WALL_IMG, (x, y))
 
+class Door(GridCell):
+	def draw(self, screen, x, y):
+		screen.blit(C.DOOR_IMG, (x, y))
+
 class Char(GridCell):
 	def __init__(self, char, locked=False):
 		self.char = char
