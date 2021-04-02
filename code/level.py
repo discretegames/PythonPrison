@@ -1,6 +1,6 @@
 import string
 from code.helpers import *
-from code.gridcell import GridCell, Char
+from code.gridcell import GridCell, Char, Cop
 from code.executor import Executor
 from code.constants import C
 from code.push import Push
@@ -137,35 +137,25 @@ class Level:
 
 		if not self.in_bounds(x, y):
 			return False # Things can't be pushed out of bounds even though the player is allowed out there.
-		if self.cell_occupied(x, y) and not self.grid[y][x].pushable:
+
+		is_cop = isinstance(self.grid[y][x], Cop)
+		# Feels like unnecessary checks here but I forget the exact logic so I'll leave it.
+		if self.cell_occupied(x, y) and not self.grid[y][x].pushable and not is_cop:
 			return False # Can't push something not pushable.
 
-		self.push = Push(x_start, y_start, x, y, dx, dy)
+		if is_cop and self.grid[y][x].char != self.grid[y - dy][x - dx].char:
+			return False # Cop char must match.
+
+		self.push = Push(x_start, y_start, x, y, dx, dy, is_cop)
 		return True
 
 	def finish_move(self):
 		if self.push:
-			self.apply_push()
+			self.push.apply(self.grid)
 			self.push = None
 
-	def apply_push(self): # Assumes push is valid.
-		p = self.push
-		if p.dx == -1:
-			for x in range(p.x2, p.x1):
-				self.grid[p.y][x] = self.grid[p.y][x + 1]
-		elif p.dx == 1:
-			for x in range(p.x2, p.x1, -1):
-				self.grid[p.y][x] = self.grid[p.y][x - 1]
-		elif p.dy == -1:
-			for y in range(p.y2, p.y1):
-				self.grid[y][p.x] = self.grid[y + 1][p.x]
-		elif p.dy == 1:
-			for y in range(p.y2, p.y1, -1):
-				self.grid[y][p.x] = self.grid[y - 1][p.x]
-		self.grid[p.y1][p.x1] = None
-
 	def cell_is_char(self, x, y): # assumes x,y in bounds
-		return self.grid[y][x] and self.grid[y][x].is_char
+		return self.grid[y][x] and isinstance(self.grid[y][x], Char)
 
 	def read_code(self, x1, y1, x2, y2):
 		lines = []

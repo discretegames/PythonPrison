@@ -4,17 +4,15 @@ from code.constants import C
 from code.helpers import *
 
 class GridCell(ABC):
+	def __init__(self, char=' '):
+		self.char = char
+
 	@abstractmethod
 	def draw(self, screen, x, y):
 		pass
 
-	# TODO this will need to change when cops to bribe are added, since they're occupied but can be pushed onto
 	@property
 	def pushable(self):
-		return False
-
-	@property
-	def is_char(self):
 		return False
 
 	@property
@@ -27,7 +25,7 @@ class GridCell(ABC):
 		modifier = modifier.lower()
 		if modifier == '#': # Wall
 			return Wall()
-		if modifier == 'd':
+		if modifier == '%':
 			return Door()
 		if modifier == 'c':
 			return Cop(' ' if content in string.whitespace else content) # just in case of tabs
@@ -60,19 +58,19 @@ class Door(GridCell):
 
 class Cop(GridCell):
 	def __init__(self, char):
-		self.char = char
+		super().__init__(char)
 		self.img = C.COP_IMG.convert_alpha()
-		text = C.COP_FONT.render(char, True, C.COP_TEXT_COLOR)
+		text = C.COP_FONT.render(self.char, True, C.COP_TEXT_COLOR)
 		w, h = text.get_size()
 		dx, dy = C.COP_FONT_OFFSET
 		self.img.blit(text, (C.GRID_SCALE - w + dx, C.GRID_SCALE - h + dy))
 
 	def draw(self, screen, x, y):
-		screen.blit(self.img, (x, y)) # TODO draw char a bit better
+		screen.blit(self.img, (x, y))
 
 class Char(GridCell):
 	def __init__(self, char, locked=False):
-		self.char = char
+		super().__init__(char)
 		self.locked = locked
 		if self.locked:
 			background = C.LOCKED_CHAR_IMG
@@ -82,16 +80,12 @@ class Char(GridCell):
 			text_color = C.CHAR_TEXT_COLOR
 
 		self.img = background.convert_alpha()
-		text = C.CHAR_FONT.render(char, True, text_color)
+		text = C.CHAR_FONT.render(self.char, True, text_color)
 		self.img.blit(text, center2D(text.get_size(), C.GRID_SIZE))
 
 	@property
 	def pushable(self):
 		return not self.locked
-
-	@property
-	def is_char(self):
-		return True
 
 	def draw(self, screen, x, y):
 		screen.blit(self.img, (x, y))
