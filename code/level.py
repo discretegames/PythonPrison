@@ -28,7 +28,7 @@ class Level:
 			lines = file.readlines()
 		if lines:
 			self.title = lines[0].strip()
-			self.text = C.LEVEL_TITLE_FONT.render(self.title, True, C.LEVEL_TITLE_COLOR)
+			self.text = C.LEVEL_TITLE_FONT.render(self.title, True, C.LEVEL_TEXT_COLOR)
 		if len(lines) > 1:
 			args = [arg.lower() for arg in lines[1].split()]
 			if 'lockexec' in args:
@@ -202,7 +202,7 @@ class Level:
 			message = 'Oops: no output region'
 		else:
 			message = 'Execution successful!'
-		self.error_text = C.ERROR_FONT.render(message, True, C.LEVEL_TITLE_COLOR)
+		self.error_text = C.ERROR_FONT.render(message, True, C.LEVEL_TEXT_COLOR)
 		self.write_output(output)
 
 	def cell_writable(self, x, y): # assumes x,y in bounds

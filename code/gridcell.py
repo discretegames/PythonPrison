@@ -61,10 +61,14 @@ class Door(GridCell):
 class Cop(GridCell):
 	def __init__(self, char):
 		self.char = char
+		self.img = C.COP_IMG.convert_alpha()
+		text = C.COP_FONT.render(char, True, C.COP_TEXT_COLOR)
+		w, h = text.get_size()
+		dx, dy = C.COP_FONT_OFFSET
+		self.img.blit(text, (C.GRID_SCALE - w + dx, C.GRID_SCALE - h + dy))
 
 	def draw(self, screen, x, y):
-		screen.blit(C.COP_IMG, (x, y)) # TODO draw char somehow
-
+		screen.blit(self.img, (x, y)) # TODO draw char a bit better
 
 class Char(GridCell):
 	def __init__(self, char, locked=False):
