@@ -36,6 +36,7 @@ def get_inputs():
 	keys = pygame.key.get_pressed()
 	sprinting = keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]
 	kx, ky = 0, 0
+	pulling = keys[pygame.K_SPACE]
 
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -67,7 +68,7 @@ def get_inputs():
 		if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
 			kx += 1
 
-	return kx, ky
+	return kx, ky, pulling
 
 def run_game():
 	init_game()
@@ -77,8 +78,8 @@ def run_game():
 
 	while running:
 		dt = clock.tick(C.FPS) / 1000
-		kx, ky = get_inputs()
-		player.update(dt, kx, ky)
+		kx, ky, pulling = get_inputs()
+		player.update(dt, kx, ky, pulling)
 		level.update()
 		draw_game()
 

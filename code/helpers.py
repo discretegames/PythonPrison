@@ -45,7 +45,7 @@ class C:
 	LOCKED_CHAR_IMG = load_image('locked', GRID_SCALE)
 	BACKGROUND_IMG = load_image('background', SCREEN_SIZE)
 	CHAR_FONT = pygame.font.Font(asset_path('OxygenMono.ttf'), GRID_SCALE - 8)
-
+	CODE_HEADER = 'open=None;p=print;r=range;\n'
 
 if __name__ == "__main__":
 	import code.game

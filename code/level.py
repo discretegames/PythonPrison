@@ -101,8 +101,18 @@ class Level:
 	def cell_occupied(self, x, y):
 		return self.in_bounds(x, y) and self.grid[y][x]
 
-	def attempt_move(self, px, py, dx, dy):
-		x, y = px + dx, py + dy
+	def attempt_pull(self, dx, dy):
+		x, y = self.player.x + dx, self.player.y + dy
+		pulled_x, pulled_y = self.player.x - dx, self.player.y - dy
+		object_to_pull = self.cell_occupied(pulled_x, pulled_y) and self.grid[pulled_y][pulled_x].pushable
+		destination_clear = not self.cell_occupied(x, y)
+		if object_to_pull and destination_clear:
+			self.push = Push(pulled_x, pulled_y, self.player.x, self.player.y, dx, dy)
+			return True
+		return False
+
+	def attempt_move(self, dx, dy):
+		x, y = self.player.x + dx, self.player.y + dy
 		if not self.cell_occupied(x, y):
 			return True # Always allow motion into empty spaces, even out of bounds.
 		if not self.grid[y][x].pushable:
@@ -163,8 +173,7 @@ class Level:
 				min_indent = min(min_indent, indent)
 				lines.append(line)
 
-		header = 'open=None;p=print;r=range;\n'
-		return header + '\n'.join(line[min_indent:] for line in lines)
+		return C.CODE_HEADER + '\n'.join(line[min_indent:] for line in lines)
 
 	def start_exec(self):
 		code = self.get_code(0, 0, self.width - 1, self.height - 1)
