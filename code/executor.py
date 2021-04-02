@@ -5,15 +5,11 @@ from contextlib import redirect_stdout
 
 class Executor:
 	TIME_LIMIT = 2
-	UNSET = -1
-	SUCCESS = 0
-	ERROR = 1
-	TIMEOUT = 2
 
 	process = None
 	queue = None
 	start_time: float = 0
-	status: int = UNSET
+	error = None
 	output: str = ''
 
 	# Kills any current exec_process and starts it again running code.
@@ -40,30 +36,33 @@ class Executor:
 			self.queue.close()
 			self.process = None
 			self.queue = None
-			self.status = Executor.TIMEOUT
+			self.error = 'Timed Out'
 			self.output = ''
 			return True
 
 		# Otherwise the process is done.
 		if not self.queue or self.queue.qsize() == 0:
-			self.status = Executor.ERROR
+			self.error = 'Queue Error' # should never happen
 			self.output = ''
 		else:
-			self.status, self.output = self.queue.get()
+			self.error, self.output = self.queue.get()
 		self.queue.close()
 		self.process = None
 		self.queue = None
 		return True
 
-	# TODO use error message instead of status
 	def worker(self, code):
 		try:
 			output = io.StringIO()
 			with redirect_stdout(output):
 				exec(code, {}, {})
-			result = Executor.SUCCESS, output.getvalue()
-		except:
-			result = Executor.ERROR, ''
+			result = None, output.getvalue()
+		except Exception as e:
+			error = str(e)
+			cut = error.find(' (')
+			if cut != -1:
+				error = error[:cut]
+			result = error, ''
 		self.queue.put(result)
 
 if __name__ == "__main__":

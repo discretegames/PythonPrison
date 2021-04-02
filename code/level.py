@@ -163,7 +163,7 @@ class Level:
 				min_indent = min(min_indent, indent)
 				lines.append(line)
 
-		header = 'open=None\np=print\nr=range'
+		header = 'open=None;p=print;r=range;\n'
 		return header + '\n'.join(line[min_indent:] for line in lines)
 
 	def start_exec(self):
@@ -171,7 +171,9 @@ class Level:
 		self.executor.execute(code)
 
 	def finish_exec(self):
-		print('Result: ', self.executor.status, self.executor.output)
+		print('Error: ', self.executor.error)
+		print('Result:')
+		print(self.executor.output)
 
 if __name__ == "__main__":
 	import code.game
