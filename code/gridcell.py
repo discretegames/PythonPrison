@@ -1,5 +1,6 @@
 import string
 from abc import ABC, abstractmethod
+from code.constants import C
 from code.helpers import *
 
 class GridCell(ABC):
@@ -44,7 +45,7 @@ class Char(GridCell):
 		self.locked = locked
 		if self.locked:
 			background = C.LOCKED_CHAR_IMG
-			text_color = C.LOCKED_CHAR_TEXT_COLOR
+			text_color = C.LOCKED_TEXT_COLOR
 		else:
 			background = C.CHAR_IMG
 			text_color = C.CHAR_TEXT_COLOR

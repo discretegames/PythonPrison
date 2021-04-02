@@ -1,6 +1,7 @@
 from code.helpers import *
 from code.gridcell import GridCell
 from code.executor import Executor
+from code.constants import C
 
 class Push:
 	def __init__(self, x1, y1, x2, y2, dx, dy):
@@ -70,7 +71,6 @@ class Region:
 				color = locked_color
 			pygame.draw.rect(screen, color, rect, border_radius=C.REGION_RECT_RADIUS)
 
-
 class Level:
 	def __init__(self, filename, player):
 		self.grid = []
@@ -92,6 +92,7 @@ class Level:
 			lines = file.readlines()
 		if lines:
 			self.title = lines[0].strip()
+			self.text = C.LEVEL_TITLE_FONT.render(self.title, True, C.LEVEL_TITLE_COLOR)
 		if len(lines) > 1:
 			args = [arg.lower() for arg in lines[1].split()]
 			if 'lockexec' in args:
@@ -145,7 +146,7 @@ class Level:
 			self.finish_exec(self.executor.error, self.executor.output)
 
 	def draw(self, screen):
-		pygame.draw.rect(screen, C.LEVEL_COLOR, self.draw_rect)
+		pygame.draw.rect(screen, C.LEVEL_BG_COLOR, self.draw_rect)
 		self.out_region.draw(screen, C.OUT_REGION_COLOR, C.OUT_LOCKED_COLOR)
 		self.exec_region.draw(screen, C.EXEC_REGION_COLOR, C.EXEC_LOCKED_COLOR)
 
@@ -160,6 +161,8 @@ class Level:
 						self.grid[y][x].draw(screen, push_x, push_y)
 					else:
 						self.grid[y][x].draw(screen, draw_x, draw_y)
+
+		screen.blit(self.text, (center1D(self.text.get_width(), C.SCREEN_WIDTH), 4))
 
 	def in_bounds(self, x, y):
 		return 0 <= x < self.width and 0 <= y < self.height

@@ -1,6 +1,7 @@
 import sys
 from code.player import Player
 from code.level import Level
+from code.constants import C
 from code.helpers import *
 
 screen: pygame.Surface
@@ -50,7 +51,7 @@ def run_game():
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_ESCAPE:
 					load_level('testlevel.txt')  # reload level
-				elif event.key in (pygame.K_e, pygame.K_F5):
+				elif event.key in (pygame.K_r, pygame.K_F5):
 					level.start_exec()
 				elif event.key in (pygame.K_1, pygame.K_KP1):
 					corners[0] = True
