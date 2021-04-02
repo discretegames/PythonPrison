@@ -163,7 +163,7 @@ class Level:
 				min_indent = min(min_indent, indent)
 				lines.append(line)
 
-		header = 'open = None\np = print\n'
+		header = 'open=None\np=print\nr=range'
 		return header + '\n'.join(line[min_indent:] for line in lines)
 
 	def start_exec(self):
