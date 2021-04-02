@@ -37,13 +37,13 @@ class Executor:
 			self.queue.close()
 			self.process = None
 			self.queue = None
-			self.error = 'Timed Out'
+			self.error = 'timed out'
 			self.output = ''
 			return True
 
 		# Otherwise the process is done.
 		if not self.queue or self.queue.qsize() == 0:
-			self.error = 'Queue Error' # should never happen
+			self.error = 'queue error' # should never happen
 			self.output = ''
 		else:
 			self.error, self.output = self.queue.get()

@@ -4,9 +4,6 @@ from code.constants import C
 from code.helpers import *
 
 class GridCell(ABC):
-	def __init__(self, char=' '):
-		self.char = char
-
 	@abstractmethod
 	def draw(self, screen, x, y):
 		pass
@@ -14,6 +11,10 @@ class GridCell(ABC):
 	# TODO this will need to change when cops to bribe are added, since they're occupied but can be pushed onto
 	@property
 	def pushable(self):
+		return False
+
+	@property
+	def is_char(self):
 		return False
 
 	@staticmethod
@@ -42,6 +43,7 @@ class Wall(GridCell):
 
 class Char(GridCell):
 	def __init__(self, char, locked=False):
+		self.char = char
 		self.locked = locked
 		if self.locked:
 			background = C.LOCKED_CHAR_IMG
@@ -53,11 +55,14 @@ class Char(GridCell):
 		self.img = background.convert_alpha()
 		text = C.CHAR_FONT.render(char, True, text_color)
 		self.img.blit(text, center2D(text.get_size(), C.GRID_SIZE))
-		super().__init__(char)
 
 	@property
 	def pushable(self):
 		return not self.locked
+
+	@property
+	def is_char(self):
+		return True
 
 	def draw(self, screen, x, y):
 		screen.blit(self.img, (x, y))

@@ -18,6 +18,8 @@ class C:
 
 	CHAR_FONT = pygame.font.Font(asset_path('OxygenMono.ttf'), GRID_SCALE - 8)
 	LEVEL_TITLE_FONT = pygame.font.Font(asset_path('SimpleSlum.ttf'), 32)
+	ERROR_FONT = pygame.font.Font(asset_path('OxygenMono.ttf'), 24)
+	FONT_VERT_OFFSET = 6
 
 	LEVEL_BG_COLOR = 100, 100, 100
 	LEVEL_TITLE_COLOR = 255, 255, 255

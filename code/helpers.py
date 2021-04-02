@@ -21,14 +21,8 @@ def center1D(smaller, bigger):
 def center2D(smaller, bigger):
 	return center1D(smaller[0], bigger[0]), center1D(smaller[1], bigger[1])
 
-def order(n1, n2): # sorted works but this seems more efficient
-	if n1 < n2:
-		return n1, n2
-	return n2, n1
-
 def clamp(n, n_max, n_min=0):
 	return min(max(n, n_min), n_max)
-
 
 if __name__ == "__main__":
 	import code.game

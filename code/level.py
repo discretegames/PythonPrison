@@ -1,5 +1,6 @@
+import string
 from code.helpers import *
-from code.gridcell import GridCell
+from code.gridcell import GridCell, Char
 from code.executor import Executor
 from code.constants import C
 
@@ -37,7 +38,7 @@ class Region:
 	def update(self, pos, start, force=False):
 		if self.locked and not force:
 			return
-		x, y = clamp(pos[0], self.level.width), clamp(pos[1], self.level.height)
+		x, y = clamp(pos[0], self.level.width - 1), clamp(pos[1], self.level.height - 1)
 		if start:
 			if self.end and (x > self.end[0] or y > self.end[1]):
 				self.end = None
@@ -52,6 +53,12 @@ class Region:
 
 	def empty(self):
 		return not self.start and not self.end
+
+	def contains(self, x, y):
+		if self.empty():
+			return False
+		x1, y1, x2, y2 = self.coords()
+		return x1 <= x <= x2 and y1 <= y <= y2
 
 	def coords(self):
 		if self.start and self.end:
@@ -75,6 +82,7 @@ class Level:
 	def __init__(self, filename, player):
 		self.grid = []
 		self.title = 'Some Level'
+		self.error_text = None
 		self.width, self.height = 0, 0
 		self.player_start_pos = 0, 0
 		self.player_start_dir = C.NORTH
@@ -162,7 +170,10 @@ class Level:
 					else:
 						self.grid[y][x].draw(screen, draw_x, draw_y)
 
-		screen.blit(self.text, (center1D(self.text.get_width(), C.SCREEN_WIDTH), 4))
+		if self.error_text:
+			w, h = self.error_text.get_size()
+			screen.blit(self.error_text, (center1D(w, C.SCREEN_WIDTH), C.SCREEN_HEIGHT - h - C.FONT_VERT_OFFSET))
+		screen.blit(self.text, (center1D(self.text.get_width(), C.SCREEN_WIDTH), C.FONT_VERT_OFFSET))
 
 	def in_bounds(self, x, y):
 		return 0 <= x < self.width and 0 <= y < self.height
@@ -221,7 +232,10 @@ class Level:
 				self.grid[y][p.x] = self.grid[y - 1][p.x]
 		self.grid[p.y1][p.x1] = None
 
-	def get_code(self, x1, y1, x2, y2):
+	def cell_is_char(self, x, y): # assumes x,y in bounds
+		return self.grid[y][x] and self.grid[y][x].is_char
+
+	def read_code(self, x1, y1, x2, y2):
 		lines = []
 		min_indent = self.width
 		for y in range(y1, y2+1):
@@ -229,7 +243,7 @@ class Level:
 			indent = 0
 			indent_over = False
 			for x in range(x1, x2+1):
-				char = self.grid[y][x].char if self.grid[y][x] else ' '
+				char = self.grid[y][x].char if self.cell_is_char(x, y) else ' '
 				line.append(char)
 				if char != ' ':
 					indent_over = True
@@ -244,15 +258,53 @@ class Level:
 
 	def start_exec(self):
 		if self.exec_region.empty():
-			self.finish_exec('No Execution Region')
+			self.finish_exec('no execution region')
 		else:
-			code = self.get_code(*self.exec_region.coords())
+			code = self.read_code(*self.exec_region.coords())
 			self.executor.execute(code)
 
 	def finish_exec(self, error, output=''):
-		print('Error: ', error)
-		print('Result:')
-		print(output)
+		if error:
+			message = f'Oops: {error}'
+		elif self.out_region.empty():
+			message = 'Oops: no output region'
+		else:
+			message = 'Execution successful!'
+		self.error_text = C.ERROR_FONT.render(message, True, C.LEVEL_TITLE_COLOR)
+		self.write_output(output)
+
+	def cell_writable(self, x, y): # assumes x,y in bounds
+		overwritable = (not self.grid[y][x]) or (self.cell_is_char(x, y) and not self.grid[y][x].locked)
+		avoids_player = self.player.pos != (x, y)
+		avoids_exec = not self.exec_region.contains(x, y)
+		return overwritable and avoids_player and avoids_exec
+
+	def write_cell(self, x, y, char): # assumes x,y valid and char valid
+		if char == ' ':
+			self.grid[y][x] = None
+		else:
+			self.grid[y][x] = Char(char)
+
+	def write_output(self, output):
+		if not output or self.out_region.empty():
+			return
+
+		def char_at(x, y):
+			if y >= len(lines) or x >= len(lines[y]):
+				return ' '
+			char = lines[y][x]
+			if char in string.whitespace:
+				return ' '
+			if char not in string.printable:
+				return '?'
+			return char
+
+		lines = output.split('\n')
+		x1, y1, x2, y2 = self.out_region.coords()
+		for y in range(y1, y2 + 1):
+			for x in range(x1, x2 + 1):
+				if self.cell_writable(x, y):
+					self.write_cell(x, y, char_at(x - x1, y - y1))
 
 if __name__ == "__main__":
 	import code.game
