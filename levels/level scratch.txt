@@ -11,6 +11,14 @@ Testing
 |#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#
 
 
+$ is player
+
+% is door
+| is normal
+! is locked
+## is wall
+@ maybe save for fence
+
 out of date below 
 
 

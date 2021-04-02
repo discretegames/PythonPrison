@@ -109,19 +109,23 @@ class Level:
 	def cell_occupied(self, x, y):
 		return self.in_bounds(x, y) and self.grid[y][x]
 
+	def player_can_occupy(self, x, y):
+		if not self.cell_occupied(x, y):
+			return True
+		return self.grid[y][x].occupiable
+
 	def attempt_pull(self, dx, dy):
 		x, y = self.player.x + dx, self.player.y + dy
 		pulled_x, pulled_y = self.player.x - dx, self.player.y - dy
 		object_to_pull = self.cell_occupied(pulled_x, pulled_y) and self.grid[pulled_y][pulled_x].pushable
-		destination_clear = not self.cell_occupied(x, y)
-		if object_to_pull and destination_clear:
+		if object_to_pull and self.player_can_occupy(x, y) and not self.cell_occupied(*self.player.pos):
 			self.push = Push(pulled_x, pulled_y, self.player.x, self.player.y, dx, dy)
 			return True
 		return False
 
 	def attempt_move(self, dx, dy):
 		x, y = self.player.x + dx, self.player.y + dy
-		if not self.cell_occupied(x, y):
+		if self.player_can_occupy(x, y):
 			return True # Always allow motion into empty spaces, even out of bounds.
 		if not self.grid[y][x].pushable:
 			return False
