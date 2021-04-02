@@ -45,6 +45,8 @@ class Player:
 		if pulled or self.level.attempt_move(dx, dy):
 			self.dx, self.dy = dx, dy
 			self.moving = True
+			if not pulled:
+				rotate(1)
 
 	def set_direction(self, direction):
 		self.direction = direction

@@ -24,10 +24,13 @@ class GridCell(ABC):
 	@staticmethod
 	# Returns the created GridCell or the rotation angle integer for the player's position.
 	def create_grid_cell(modifier, content):
+		modifier = modifier.lower()
 		if modifier == '#': # Wall
 			return Wall()
-		if modifier == '%':
+		if modifier == 'd':
 			return Door()
+		if modifier == 'c':
+			return Cop(' ' if content in string.whitespace else content) # just in case of tabs
 		if modifier == '$': # Player
 			content = content.upper()
 			if content == 'S':
@@ -54,6 +57,14 @@ class Door(GridCell):
 	@property
 	def occupiable(self):
 		return True
+
+class Cop(GridCell):
+	def __init__(self, char):
+		self.char = char
+
+	def draw(self, screen, x, y):
+		screen.blit(C.COP_IMG, (x, y)) # TODO draw char somehow
+
 
 class Char(GridCell):
 	def __init__(self, char, locked=False):

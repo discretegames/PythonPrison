@@ -37,6 +37,7 @@ class C:
 	WALL_IMG = load_image('wall', GRID_SCALE)
 	CHAR_IMG = load_image('char', GRID_SCALE)
 	DOOR_IMG = load_image('door', GRID_SCALE)
+	COP_IMG = load_image('cop', GRID_SCALE)
 	LOCKED_CHAR_IMG = load_image('locked', GRID_SCALE)
 	BACKGROUND_IMG = load_image('background', SCREEN_SIZE)
 	CODE_HEADER = 'open=None;p=print;r=range;\n'
