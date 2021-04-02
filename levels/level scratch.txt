@@ -10,6 +10,10 @@ Testing
 |#| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |#
 |#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#|#
 
+
+out of date below 
+
+
 every 2 characters is one grid square
 AB where A is the header and B is the tail
 A is modifier, B is content
@@ -44,3 +48,4 @@ probably need bools for whether player can change the I/O areas
 make sure output filters for printable ascii, treat tab as 4 spaces, newlines as next lines
 
 trash cell good idea
+also a hole than can be filled with anything and thus paved

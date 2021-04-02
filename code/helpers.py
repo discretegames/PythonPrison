@@ -21,6 +21,14 @@ def center1D(smaller, bigger):
 def center2D(smaller, bigger):
 	return center1D(smaller[0], bigger[0]), center1D(smaller[1], bigger[1])
 
+def order(n1, n2): # sorted works but this seems more efficient
+	if n1 < n2:
+		return n1, n2
+	return n2, n1
+
+def clamp(n, n_max, n_min=0):
+	return min(max(n, n_min), n_max)
+
 # Constants
 class C:
 	pygame.init() # Initialize pygame so constant fonts and such can be created.
@@ -37,6 +45,9 @@ class C:
 	WEST = 90
 	EAST = 270
 	LEVEL_COLOR = 100, 100, 100
+	EXEC_REGION_COLOR = 100, 100, 160
+	OUT_REGION_COLOR = 160, 100, 100
+	REGION_RECT_RADIUS = 10
 	CHAR_TEXT_COLOR = 220, 220, 220
 	LOCKED_CHAR_TEXT_COLOR = 180, 180, 180
 	PLAYER_IMG = load_image('player', GRID_SCALE)

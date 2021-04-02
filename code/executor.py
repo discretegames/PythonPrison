@@ -6,11 +6,12 @@ from contextlib import redirect_stdout
 class Executor:
 	TIME_LIMIT = 2
 
-	process = None
-	queue = None
-	start_time: float = 0
-	error = None
-	output: str = ''
+	def __init__(self):
+		self.process = None
+		self.queue = None
+		self.start_time = 0
+		self.error = None
+		self.output = ''
 
 	# Kills any current exec_process and starts it again running code.
 	def execute(self, code):

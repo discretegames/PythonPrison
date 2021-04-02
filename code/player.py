@@ -1,17 +1,13 @@
 from code.helpers import *
 
 class Player:
-	moving: bool = False
-	direction: int = C.NORTH
-	x: int = 0
-	y: int = 0
-	fx: float = 0
-	fy: float = 0
-	dx: int = 0
-	dy: int = 0
-	level = None
-
 	def __init__(self):
+		self.moving = False
+		self.direction = C.NORTH
+		self.x, self.y = 0, 0
+		self.fx, self.fy = 0, 0
+		self.dx, self.dy = 0, 0
+		self.level = None
 		self.draw_rect = pygame.Rect(center2D(C.GRID_SIZE, C.SCREEN_SIZE), C.GRID_SIZE)
 		self.img = C.PLAYER_IMG
 		self.sprite = pygame.transform.rotate(self.img, C.SOUTH)

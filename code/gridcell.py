@@ -29,6 +29,8 @@ class GridCell(ABC):
 			if content == 'W':
 				return C.WEST
 			return C.NORTH
+		if modifier in '1234':
+			return modifier
 		if content in string.whitespace:
 			return None
 		return Char(content, modifier == '!')
