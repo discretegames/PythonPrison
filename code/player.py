@@ -1,6 +1,5 @@
 from code.helpers import *
 
-
 class Player:
 	moving: bool = False
 	direction: int = C.NORTH
@@ -35,13 +34,18 @@ class Player:
 		screen.blit(self.sprite, self.draw_rect.topleft)
 
 	def try_start_moving(self, dx, dy, pulling):
-		if not pulling:
+		def rotate(compare):
 			if dx != 0:
-				self.set_direction(C.EAST if dx == 1 else C.WEST)
+				self.set_direction(C.EAST if dx == compare else C.WEST)
 			else:
-				self.set_direction(C.SOUTH if dy == 1 else C.NORTH)
+				self.set_direction(C.SOUTH if dy == compare else C.NORTH)
 
-		if pulling and self.level.attempt_pull(dx, dy) or self.level.attempt_move(dx, dy):
+		if not pulling:
+			rotate(1)
+		pulled = pulling and self.level.attempt_pull(dx, dy)
+		if pulled:
+			rotate(-1)
+		if pulled or self.level.attempt_move(dx, dy):
 			self.dx, self.dy = dx, dy
 			self.moving = True
 
