@@ -31,8 +31,11 @@ class Region:
 		self.start = None
 		self.end = None
 		self.level = level
+		self.locked = False
 
-	def update(self, pos, start):
+	def update(self, pos, start, force=False):
+		if self.locked and not force:
+			return
 		x, y = clamp(pos[0], self.level.width), clamp(pos[1], self.level.height)
 		if start:
 			if self.end and (x > self.end[0] or y > self.end[1]):
@@ -42,6 +45,9 @@ class Region:
 			if self.start and (x < self.start[0] or y < self.start[1]):
 				self.start = None
 			self.end = x, y
+
+	def lock(self):
+		self.locked = True
 
 	def empty(self):
 		return not self.start and not self.end
@@ -55,12 +61,15 @@ class Region:
 			return *self.end, *self.end
 		return None
 
-	def draw(self, screen, color):
+	def draw(self, screen, color, locked_color):
 		if not self.empty():
 			x1, y1, x2, y2 = (c * C.GRID_SCALE for c in self.coords())
 			rect = pygame.Rect(x1, y1, x2 - x1 + C.GRID_SCALE , y2 - y1 + C.GRID_SCALE)
 			rect.move_ip(self.level.draw_rect.topleft)
+			if self.locked:
+				color = locked_color
 			pygame.draw.rect(screen, color, rect, border_radius=C.REGION_RECT_RADIUS)
+
 
 class Level:
 	def __init__(self, filename, player):
@@ -84,7 +93,11 @@ class Level:
 		if lines:
 			self.title = lines[0].strip()
 		if len(lines) > 1:
-			pass # TODO read the properties that would appear on lines[1]
+			args = [arg.lower() for arg in lines[1].split()]
+			if 'lockexec' in args:
+				self.exec_region.lock()
+			if 'lockout' in args:
+				self.out_region.lock()
 		self.load_grid(lines[2:])
 
 	def load_grid(self, file_grid_lines):
@@ -104,9 +117,9 @@ class Level:
 					self.player_start_pos = x, y
 				elif isinstance(cell, str): # Must be region corner.
 					if cell in '12':
-						self.exec_region.update((x, y), cell == '1')
+						self.exec_region.update((x, y), cell == '1', True)
 					else:
-						self.out_region.update((x, y), cell == '3')
+						self.out_region.update((x, y), cell == '3', True)
 				else:
 					self.grid[y][x] = cell
 
@@ -133,8 +146,8 @@ class Level:
 
 	def draw(self, screen):
 		pygame.draw.rect(screen, C.LEVEL_COLOR, self.draw_rect)
-		self.out_region.draw(screen, C.OUT_REGION_COLOR)
-		self.exec_region.draw(screen, C.EXEC_REGION_COLOR)
+		self.out_region.draw(screen, C.OUT_REGION_COLOR, C.OUT_LOCKED_COLOR)
+		self.exec_region.draw(screen, C.EXEC_REGION_COLOR, C.EXEC_LOCKED_COLOR)
 
 		for y in range(self.height):
 			draw_y = self.draw_rect.y + C.GRID_SCALE * y

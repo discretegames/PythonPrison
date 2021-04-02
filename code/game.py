@@ -50,15 +50,15 @@ def run_game():
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_ESCAPE:
 					load_level('testlevel.txt')  # reload level
-				elif event.key == pygame.K_r:
+				elif event.key in (pygame.K_e, pygame.K_F5):
 					level.start_exec()
-				elif event.key == pygame.K_1:
+				elif event.key in (pygame.K_1, pygame.K_KP1):
 					corners[0] = True
-				elif event.key == pygame.K_2:
+				elif event.key in (pygame.K_2, pygame.K_KP2):
 					corners[1] = True
-				elif event.key == pygame.K_3:
+				elif event.key in (pygame.K_3, pygame.K_KP3):
 					corners[2] = True
-				elif event.key == pygame.K_4:
+				elif event.key in (pygame.K_4, pygame.K_KP4):
 					corners[3] = True
 
 				if not sprinting:
