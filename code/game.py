@@ -15,14 +15,16 @@ def init_game():
 	pygame.key.set_repeat() # no args intentionally
 	screen = pygame.display.set_mode(C.SCREEN_SIZE)
 	player = Player()
-	load_level('testlevel.txt')
+	load_level('00.txt')
 
 def exit_game():
 	pygame.quit()
 	sys.exit()
 
 def draw_game():
-	screen.blit(C.BACKGROUND_IMG, (0, 0))
+	#screen.blit(C.BACKGROUND_IMG, (0, 0))
+	screen.fill(C.GRASS_COLOR)
+
 	level.draw(screen)
 	player.draw(screen)
 	pygame.display.update()
@@ -50,7 +52,7 @@ def run_game():
 				running = False
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_ESCAPE:
-					load_level('testlevel.txt')  # reload level
+					load_level('00.txt')  # reload level
 				elif event.key in (pygame.K_r, pygame.K_F5):
 					level.start_exec()
 				elif event.key in (pygame.K_1, pygame.K_KP1):
@@ -81,7 +83,6 @@ def run_game():
 				kx -= 1
 			if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
 				kx += 1
-
 
 		player.update(dt, kx, ky, pulling)
 		level.update(corners)

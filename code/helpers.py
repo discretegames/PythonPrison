@@ -1,5 +1,6 @@
 import os
-import pygame #
+import pygame
+import random
 
 def asset_path(filename, folder='assets'):
 	path = os.path.join(folder, filename)

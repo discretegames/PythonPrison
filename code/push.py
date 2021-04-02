@@ -13,7 +13,7 @@ class Push:
 	def y(self):
 		return self.y1
 
-	def in_push(self, x, y):
+	def contains(self, x, y):
 		if self.dx == 1:
 			return y == self.y and self.x1 <= x < self.x2
 		elif self.dx == -1:

@@ -77,7 +77,6 @@ class Player:
 			dx, dy = (kx, 0) if kx != 0 else (0, ky)
 			self.try_start_moving(dx, dy, pulling)
 
-
 if __name__ == "__main__":
 	import code.game
 

@@ -5,6 +5,7 @@ from code.executor import Executor
 from code.constants import C
 from code.push import Push
 from code.region import Region
+import random
 
 class Level:
 	def __init__(self, filename, player):
@@ -82,22 +83,30 @@ class Level:
 			self.finish_exec(self.executor.error, self.executor.output)
 
 	def draw(self, screen):
+		# TODO draw bg
+
+		# Border
+		pygame.draw.rect(screen, C.LEVEL_BORDER_COLOR, self.draw_rect.inflate(C.LEVEL_BORDER, C.LEVEL_BORDER))
+		#Background
 		pygame.draw.rect(screen, C.LEVEL_BG_COLOR, self.draw_rect)
+
+		# Regions
 		self.out_region.draw(screen, C.OUT_REGION_COLOR, C.OUT_LOCKED_COLOR)
 		self.exec_region.draw(screen, C.EXEC_REGION_COLOR, C.EXEC_LOCKED_COLOR)
 
+		# Grid
 		for y in range(self.height):
 			draw_y = self.draw_rect.y + C.GRID_SCALE * y
 			for x in range(self.width):
 				draw_x = self.draw_rect.x + C.GRID_SCALE * x
 				if self.grid[y][x]:
-					if self.push and self.push.in_push(x, y):
+					if self.push and self.push.contains(x, y):
 						push_x = self.player.draw_rect.x + C.GRID_SCALE * (x - self.player.x)
 						push_y = self.player.draw_rect.y + C.GRID_SCALE * (y - self.player.y)
 						self.grid[y][x].draw(screen, push_x, push_y)
 					else:
 						self.grid[y][x].draw(screen, draw_x, draw_y)
-
+		# Text
 		if self.error_text:
 			w, h = self.error_text.get_size()
 			screen.blit(self.error_text, (center1D(w, C.SCREEN_WIDTH), C.SCREEN_HEIGHT - h - C.FONT_VERT_OFFSET))
@@ -145,7 +154,6 @@ class Level:
 
 		if is_cop and self.grid[y][x].char != self.grid[y - dy][x - dx].char:
 			return False # Cop char must match.
-
 		self.push = Push(x_start, y_start, x, y, dx, dy, is_cop)
 		return True
 
@@ -186,10 +194,11 @@ class Level:
 			self.executor.execute(code)
 
 	def finish_exec(self, error, output=''):
+		header = 'Error: '
 		if error:
-			message = f'Oops: {error}'
+			message = f'{header}{error}'
 		elif self.out_region.empty():
-			message = 'Oops: no output region'
+			message = f'{header}no output region'
 		else:
 			message = 'Execution successful!'
 		self.error_text = C.ERROR_FONT.render(message, True, C.LEVEL_TEXT_COLOR)
