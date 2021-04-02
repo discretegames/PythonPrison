@@ -75,9 +75,6 @@ class Level:
 		return self.width, self.height
 
 	def update(self, corners):
-		if self.executor.is_done():
-			self.finish_exec()
-
 		for i, corner in enumerate(corners):
 			if corner:
 				self.exec_corners[i] = self.player.pos
@@ -86,26 +83,20 @@ class Level:
 		y = self.player.draw_rect.y - self.player.fy * C.GRID_SCALE
 		self.draw_rect.update(x, y, *self.draw_rect.size)
 
-	def draw_grid_rect(self, screen, color, corner1, corner2):
-		x1, y1 = corner1
-		x2, y2 = corner2
-		x1, x2 = order(x1, x2)
-		y1, y2 = order(y1, y2)
-		left = self.draw_rect.left + x1 * C.GRID_SCALE
-		width = (x2 - x1 + 1) * C.GRID_SCALE
-		top = self.draw_rect.top + y1 * C.GRID_SCALE
-		height = (y2 - y1 + 1) * C.GRID_SCALE
-		pygame.draw.rect(screen, color, (left, top, width, height))  # TODO alpha and on top? 1234 symbols?
+		if self.executor.is_done():
+			self.finish_exec(self.executor.error, self.executor.output)
 
+	# todo have better checks here and in code exec funcion
 	def draw_exec_region(self, screen, output: bool):
 		c1, c2 = self.exec_corners[2 * output], self.exec_corners[2 * output + 1]
 		if c1 and c2:
 			x1, y1, x2, y2 = (val * C.GRID_SCALE for val in (*c1, *c2))
-			rect = pygame.Rect(x1, y1, x2 - x1 + C.GRID_SCALE, y2 - y1 + C.GRID_SCALE)
-			rect.move_ip(self.draw_rect.topleft)
-			rect.clamp_ip(self.draw_rect)
-			color = C.OUT_REGION_COLOR if output else C.EXEC_REGION_COLOR
-			pygame.draw.rect(screen, color, rect, border_radius=C.REGION_RECT_RADIUS)
+			if x1 < x2 and y1 < y2:
+				rect = pygame.Rect(x1, y1, x2 - x1 + C.GRID_SCALE, y2 - y1 + C.GRID_SCALE)
+				rect.move_ip(self.draw_rect.topleft)
+				rect.clamp_ip(self.draw_rect)
+				color = C.OUT_REGION_COLOR if output else C.EXEC_REGION_COLOR
+				pygame.draw.rect(screen, color, rect, border_radius=C.REGION_RECT_RADIUS)
 
 	def draw(self, screen):
 		pygame.draw.rect(screen, C.LEVEL_COLOR, self.draw_rect)
@@ -205,13 +196,16 @@ class Level:
 		return C.CODE_HEADER + '\n'.join(line[min_indent:] for line in lines)
 
 	def start_exec(self):
-		code = self.get_code(0, 0, self.width - 1, self.height - 1)
-		self.executor.execute(code)
+		if self.exec_corners[0] and self.exec_corners[1]:
+			code = self.get_code(0, 0, self.width - 1, self.height - 1)
+			self.executor.execute(code)
+		else:
+			self.finish_exec('No Execution Region')
 
-	def finish_exec(self):
-		print('Error: ', self.executor.error)
+	def finish_exec(self, error, output=''):
+		print('Error: ', error)
 		print('Result:')
-		print(self.executor.output)
+		print(output)
 
 if __name__ == "__main__":
 	import code.game
