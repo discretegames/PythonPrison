@@ -31,8 +31,8 @@ def clamp(n, n_max, n_min=0):
 
 # Constants
 class C:
-	pygame.init() # Initialize pygame so constant fonts and such can be created.
-	SCREEN_TITLE = 'PyWeek31 Entry - by discretegames'
+	pygame.init()  # Initialize pygame so constant fonts and such can be created. Unrelated to welcome message replay.
+	SCREEN_TITLE = 'Python Prison - PyWeek31 entry by discretegames'
 	SCREEN_SIZE = 1920, 1080 # 1600, 900
 	SCREEN_WIDTH, SCREEN_HEIGHT = SCREEN_SIZE
 	FPS = 60
@@ -55,8 +55,9 @@ class C:
 	CHAR_IMG = load_image('char', GRID_SCALE)
 	LOCKED_CHAR_IMG = load_image('locked', GRID_SCALE)
 	BACKGROUND_IMG = load_image('background', SCREEN_SIZE)
-	CHAR_FONT = pygame.font.Font(asset_path('OxygenMono.ttf'), GRID_SCALE - 8)
 	CODE_HEADER = 'open=None;p=print;r=range;\n'
+	CHAR_FONT = pygame.font.Font(asset_path('OxygenMono.ttf'), GRID_SCALE - 8)
+
 
 if __name__ == "__main__":
 	import code.game

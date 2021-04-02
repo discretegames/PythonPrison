@@ -26,6 +26,42 @@ class Push:
 		elif self.dy == -1:
 			return x == self.x and self.y1 >= y > self.y2
 
+class Region:
+	def __init__(self, level):
+		self.start = None
+		self.end = None
+		self.level = level
+
+	def update(self, pos, start):
+		x, y = clamp(pos[0], self.level.width), clamp(pos[1], self.level.height)
+		if start:
+			if self.end and (x > self.end[0] or y > self.end[1]):
+				self.end = None
+			self.start = x, y
+		else:
+			if self.start and (x < self.start[0] or y < self.start[1]):
+				self.start = None
+			self.end = x, y
+
+	def empty(self):
+		return not self.start and not self.end
+
+	def coords(self):
+		if self.start and self.end:
+			return *self.start, *self.end
+		if self.start:
+			return *self.start, *self.start
+		if self.end:
+			return *self.end, *self.end
+		return None
+
+	def draw(self, screen, color):
+		if not self.empty():
+			x1, y1, x2, y2 = (c * C.GRID_SCALE for c in self.coords())
+			rect = pygame.Rect(x1, y1, x2 - x1 + C.GRID_SCALE , y2 - y1 + C.GRID_SCALE)
+			rect.move_ip(self.level.draw_rect.topleft)
+			pygame.draw.rect(screen, color, rect, border_radius=C.REGION_RECT_RADIUS)
+
 class Level:
 	def __init__(self, filename, player):
 		self.grid = []
@@ -35,7 +71,8 @@ class Level:
 		self.player_start_dir = C.NORTH
 		self.push = None
 		self.executor = Executor()
-		self.exec_corners = [None] * 4 # 0 1 for execute, 2 3 for output
+		self.exec_region = Region(self)
+		self.out_region = Region(self)
 		self.player = player
 		self.load_level(filename)
 		self.draw_rect = pygame.Rect(0, 0, C.GRID_SCALE * self.width, C.GRID_SCALE * self.height)
@@ -66,7 +103,10 @@ class Level:
 					self.player_start_dir = cell
 					self.player_start_pos = x, y
 				elif isinstance(cell, str): # Must be region corner.
-					self.exec_corners[int(cell) - 1] = x, y
+					if cell in '12':
+						self.exec_region.update((x, y), cell == '1')
+					else:
+						self.out_region.update((x, y), cell == '3')
 				else:
 					self.grid[y][x] = cell
 
@@ -75,9 +115,14 @@ class Level:
 		return self.width, self.height
 
 	def update(self, corners):
-		for i, corner in enumerate(corners):
-			if corner:
-				self.exec_corners[i] = self.player.pos
+		if corners[0]:
+			self.exec_region.update(self.player.pos, True)
+		elif corners[1]:
+			self.exec_region.update(self.player.pos, False)
+		if corners[2]:
+			self.out_region.update(self.player.pos, True)
+		elif corners[3]:
+			self.out_region.update(self.player.pos, False)
 
 		x = self.player.draw_rect.x - self.player.fx * C.GRID_SCALE
 		y = self.player.draw_rect.y - self.player.fy * C.GRID_SCALE
@@ -86,22 +131,10 @@ class Level:
 		if self.executor.is_done():
 			self.finish_exec(self.executor.error, self.executor.output)
 
-	# todo have better checks here and in code exec funcion
-	def draw_exec_region(self, screen, output: bool):
-		c1, c2 = self.exec_corners[2 * output], self.exec_corners[2 * output + 1]
-		if c1 and c2:
-			x1, y1, x2, y2 = (val * C.GRID_SCALE for val in (*c1, *c2))
-			if x1 < x2 and y1 < y2:
-				rect = pygame.Rect(x1, y1, x2 - x1 + C.GRID_SCALE, y2 - y1 + C.GRID_SCALE)
-				rect.move_ip(self.draw_rect.topleft)
-				rect.clamp_ip(self.draw_rect)
-				color = C.OUT_REGION_COLOR if output else C.EXEC_REGION_COLOR
-				pygame.draw.rect(screen, color, rect, border_radius=C.REGION_RECT_RADIUS)
-
 	def draw(self, screen):
 		pygame.draw.rect(screen, C.LEVEL_COLOR, self.draw_rect)
-		self.draw_exec_region(screen, True)
-		self.draw_exec_region(screen, False)
+		self.out_region.draw(screen, C.OUT_REGION_COLOR)
+		self.exec_region.draw(screen, C.EXEC_REGION_COLOR)
 
 		for y in range(self.height):
 			draw_y = self.draw_rect.y + C.GRID_SCALE * y
@@ -175,8 +208,6 @@ class Level:
 	def get_code(self, x1, y1, x2, y2):
 		lines = []
 		min_indent = self.width
-		x1, x2 = order(x1, x2)
-		y1, y2 = order(y1, y2)
 		for y in range(y1, y2+1):
 			line = []
 			indent = 0
@@ -196,11 +227,11 @@ class Level:
 		return C.CODE_HEADER + '\n'.join(line[min_indent:] for line in lines)
 
 	def start_exec(self):
-		if self.exec_corners[0] and self.exec_corners[1]:
-			code = self.get_code(0, 0, self.width - 1, self.height - 1)
-			self.executor.execute(code)
-		else:
+		if self.exec_region.empty():
 			self.finish_exec('No Execution Region')
+		else:
+			code = self.get_code(*self.exec_region.coords())
+			self.executor.execute(code)
 
 	def finish_exec(self, error, output=''):
 		print('Error: ', error)
