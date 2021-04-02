@@ -45,7 +45,7 @@ def get_inputs():
 			if event.key == pygame.K_ESCAPE:
 				load_level('testlevel.txt') # reload level
 			elif event.key == pygame.K_r:
-				level.execute()
+				level.start_exec()
 
 			if not sprinting:
 				if event.key in (pygame.K_w, pygame.K_UP):

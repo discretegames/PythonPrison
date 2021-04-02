@@ -1,5 +1,6 @@
 from code.helpers import *
-from gridcell import GridCell, Char
+from code.gridcell import GridCell
+from code.executor import Executor
 
 class Push:
 	def __init__(self, x1, y1, x2, y2, dx, dy):
@@ -33,6 +34,7 @@ class Level:
 	player_start_pos: tuple = 0, 0
 	player_start_dir: int = C.NORTH
 	push = None
+	executor: Executor = Executor()
 
 	def __init__(self, filename, player):
 		self.player = player
@@ -75,6 +77,9 @@ class Level:
 		x = self.player.draw_rect.x - self.player.fx * C.GRID_SCALE
 		y = self.player.draw_rect.y - self.player.fy * C.GRID_SCALE
 		self.draw_rect.update(x, y, *self.draw_rect.size)
+
+		if self.executor.is_done():
+			self.finish_exec()
 
 	def draw(self, screen):
 		pygame.draw.rect(screen, C.LEVEL_COLOR, self.draw_rect)
@@ -158,13 +163,15 @@ class Level:
 				min_indent = min(min_indent, indent)
 				lines.append(line)
 
-		return '\n'.join(line[min_indent:] for line in lines)
+		header = 'open = None\np = print\n'
+		return header + '\n'.join(line[min_indent:] for line in lines)
 
-	def execute(self):
-		print('vRESULTv')
+	def start_exec(self):
 		code = self.get_code(0, 0, self.width - 1, self.height - 1)
-		exec(code, {}, {})
-		print('^^^^^^^^')
+		self.executor.execute(code)
+
+	def finish_exec(self):
+		print('Result: ', self.executor.status, self.executor.output)
 
 if __name__ == "__main__":
 	import code.game
