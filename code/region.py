@@ -46,7 +46,7 @@ class Region:
 	def draw(self, screen, color, locked_color):
 		if not self.empty():
 			x1, y1, x2, y2 = (c * C.GRID_SCALE for c in self.coords())
-			rect = pygame.Rect(x1, y1, x2 - x1 + C.GRID_SCALE , y2 - y1 + C.GRID_SCALE)
+			rect = pygame.Rect(x1, y1, x2 - x1 + C.GRID_SCALE, y2 - y1 + C.GRID_SCALE)
 			rect.move_ip(self.level.draw_rect.topleft)
 			if self.locked:
 				color = locked_color

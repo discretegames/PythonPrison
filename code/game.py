@@ -15,7 +15,7 @@ muted = False
 show_info = True
 
 def init_game():
-	global screen, player, level, level_file, info
+	global screen, player, level, level_file
 	pygame.init()
 	pygame.display.set_caption(C.SCREEN_TITLE)
 	pygame.key.set_repeat() # no args intentionally
@@ -29,8 +29,8 @@ def init_game():
 def advance_level_file():
 	global level_file
 	if level_file != sandbox:
-		num = int(level_file[:-4])
-		level_file = str(num + 1).zfill(2) + '.txt'
+		num = int(level_file[:-4]) + 1
+		level_file = f'{num:02d}.txt'
 		if not asset_path(level_file, 'levels'):
 			level_file = sandbox
 
@@ -58,7 +58,7 @@ def load_level(filename):
 	player.move_count = 0
 
 def run_game():
-	global won, last_won, permanent_won
+	global won, last_won, permanent_won, muted, show_info
 	init_game()
 	clock = pygame.time.Clock()
 	running = True
@@ -78,11 +78,9 @@ def run_game():
 				if event.key == pygame.K_ESCAPE:
 					load_level(level_file)  # reload level
 				elif event.key == pygame.K_m:
-					global muted
 					pygame.mixer.music.set_volume(C.VOLUME if muted else 0)
 					muted = not muted
 				elif event.key == pygame.K_i:
-					global show_info
 					show_info = not show_info
 				elif event.key in (pygame.K_r, pygame.K_F5):
 					level.start_exec()

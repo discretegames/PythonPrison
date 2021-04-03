@@ -77,7 +77,6 @@ class Cop(GridCell):
 		super().__init__(char)
 		self.img = C.COP_IMG.convert_alpha()
 		text = C.COP_FONT.render(self.char, True, C.COP_TEXT_COLOR)
-		dx, dy = C.COP_FONT_OFFSET
 		self.img.blit(text, C.COP_FONT_OFFSET)
 
 	def draw(self, screen, x, y):
