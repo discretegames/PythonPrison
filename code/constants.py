@@ -1,5 +1,5 @@
 # Modify the line below to change the game window size. e.g (1280, 720) or (1600, 900) or (1920, 1080)
-WINDOW_SIZE = 1424, 800
+WINDOW_SIZE = (1424, 800)
 # Modify the line above to change the game window size.
 
 from code.helpers import *
@@ -7,8 +7,7 @@ from code.helpers import *
 class C:
 	pygame.init()  # Initialize pygame so constant fonts and such can be created. Unrelated to welcome message replay.
 
-	# TODO make sure this starts at 1 when submitting
-	START_LEVEL = 10
+	START_LEVEL = 1
 
 	SCREEN_TITLE = 'Python Prison - PyWeek31 entry by discretegames'
 	SCREEN_SIZE = WINDOW_SIZE
