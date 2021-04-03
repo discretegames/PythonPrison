@@ -95,7 +95,8 @@ def run_game():
 				elif event.key in (pygame.K_4, pygame.K_KP4):
 					corners[3] = True
 
-				if permanent_won and event.key in (pygame.K_RETURN, pygame.K_KP_ENTER):
+				skip_level = event.key == pygame.K_F12 and pygame.key.get_mods() & pygame.KMOD_CTRL
+				if skip_level or permanent_won and event.key in (pygame.K_RETURN, pygame.K_KP_ENTER):
 					advance_level_file()
 					load_level(level_file)
 
