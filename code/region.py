@@ -3,13 +3,14 @@ from code.constants import C
 
 class Region:
 	def __init__(self, level):
+		self.level = level
 		self.start = None
 		self.end = None
-		self.level = level
 		self.locked = False
 
 	def update(self, pos, start, force=False):
 		if self.locked and not force:
+			self.level.set_message("That region is locked in this level")
 			return
 		x, y = clamp(pos[0], self.level.width - 1), clamp(pos[1], self.level.height - 1)
 		if start:

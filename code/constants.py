@@ -17,7 +17,7 @@ class C:
 	WEST = 90
 	EAST = 270
 
-	CHAR_FONT = pygame.font.Font(asset_path('OxygenMono.ttf'), int(.75 * GRID_SCALE))
+	CHAR_FONT = pygame.font.Font(asset_path('OxygenMono.ttf'), int(.7 * GRID_SCALE))
 	COP_FONT = pygame.font.Font(asset_path('OxygenMono.ttf'), int(.5 * GRID_SCALE))
 	COP_FONT_OFFSET = int(.5 * GRID_SCALE), int(.26 * GRID_SCALE)
 	LEVEL_TITLE_FONT = pygame.font.Font(asset_path('SimpleSlum.ttf'), 44)
