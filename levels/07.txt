@@ -1,5 +1,5 @@
 Level 07 - Clear The Mess
-When execution succeeds the red region is overwritten
+When execution succeeds the output region is overwritten
 le
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 c@$e| |@| | c#| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | cM

@@ -1,4 +1,4 @@
-Level 04 - Learning to execute
+Level 04 - Everything is code
 Press R to run the code in the blue region - the output ends up in the red region
 le lo
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

@@ -1,5 +1,5 @@
-Level 06 - Putting it all together
-Use 3 to set the top left and 4 to set the bottom right of the red region
+Level 06 - The Lineup
+Use 3 to set the top left and 4 to set the bottom right of the output region
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@| | | | | | | | | | | | | | @@

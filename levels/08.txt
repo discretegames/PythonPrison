@@ -1,5 +1,5 @@
 Level 08 - Can you fix a for loop?
-The numbers aren't random
+Those numbers aren't random
 
 ######################################################################################################################
 ##| | | | | | | | | | | | | | | | | | | | | | | | | | | | c4c4c1c1c2c1c0c0c1c1c8c4c6c9c4c6c3c5c2c6c1  c9  c4  c1  c0&&

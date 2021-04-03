@@ -1,4 +1,4 @@
-Level 02 - Learning to pull
+Level 02 - Secret Exit
 Hold space while facing a block to pull it
 le lo
 ##########&&##########
