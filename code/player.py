@@ -62,22 +62,23 @@ class Player:
 				self.y += self.dy
 		self.fx, self.fy = self.x, self.y
 		self.dx, self.dy = 0, 0
+		return not self.level.in_bounds(self.x, self.y)
 
-	def update(self, dt, kx, ky, pulling):
+	def update(self, dt, kx, ky, pulling): # returns True if won
 		if self.moving:
 			if self.dx != 0:
 				self.fx += self.dx * dt * C.PLAYER_SPEED
 				if abs(self.x - self.fx) >= 1:
-					self.stop_moving()
+					return self.stop_moving()
 			else:  # Must be moving North or South
 				self.fy += self.dy * dt * C.PLAYER_SPEED
 				if abs(self.y - self.fy) >= 1:
-					self.stop_moving()
+					return self.stop_moving()
 		elif kx != 0 or ky != 0:
 			dx, dy = (kx, 0) if kx != 0 else (0, ky)
 			self.try_start_moving(dx, dy, pulling)
+		return False
 
 if __name__ == "__main__":
 	import code.game
-
 	code.game.run_game()

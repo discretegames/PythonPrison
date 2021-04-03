@@ -8,10 +8,10 @@ from code.region import Region
 import random
 
 class Level:
-	def __init__(self, filename, player):
+	def __init__(self, filename, player, message=''):
 		self.grid = []
 		self.title = 'Some Level'
-		self.error_text = None
+		self.set_message(message)
 		self.width, self.height = 0, 0
 		self.player_start_pos = 0, 0
 		self.player_start_dir = C.NORTH
@@ -22,6 +22,9 @@ class Level:
 		self.player = player
 		self.load_level(filename)
 		self.draw_rect = pygame.Rect(0, 0, C.GRID_SCALE * self.width, C.GRID_SCALE * self.height)
+
+	def set_message(self, message):
+		self.message = C.ERROR_FONT.render(message, True, C.LEVEL_TEXT_COLOR)
 
 	def load_level(self, filename):
 		path = asset_path(filename, 'levels')
@@ -83,8 +86,6 @@ class Level:
 			self.finish_exec(self.executor.error, self.executor.output)
 
 	def draw(self, screen):
-		# TODO draw bg
-
 		# Border
 		pygame.draw.rect(screen, C.LEVEL_BORDER_COLOR, self.draw_rect.inflate(C.LEVEL_BORDER, C.LEVEL_BORDER))
 		#Background
@@ -107,9 +108,8 @@ class Level:
 					else:
 						self.grid[y][x].draw(screen, draw_x, draw_y)
 		# Text
-		if self.error_text:
-			w, h = self.error_text.get_size()
-			screen.blit(self.error_text, (center1D(w, C.SCREEN_WIDTH), C.SCREEN_HEIGHT - h - C.FONT_VERT_OFFSET))
+		w, h = self.message.get_size()
+		screen.blit(self.message, (center1D(w, C.SCREEN_WIDTH), C.SCREEN_HEIGHT - h - C.FONT_VERT_OFFSET))
 		screen.blit(self.text, (center1D(self.text.get_width(), C.SCREEN_WIDTH), C.FONT_VERT_OFFSET))
 
 	def in_bounds(self, x, y):
@@ -201,7 +201,7 @@ class Level:
 			message = f'{header}no output region'
 		else:
 			message = 'Execution successful!'
-		self.error_text = C.ERROR_FONT.render(message, True, C.LEVEL_TEXT_COLOR)
+		self.set_message(message)
 		self.write_output(output)
 
 	def cell_writable(self, x, y): # assumes x,y in bounds

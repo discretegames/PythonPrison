@@ -29,6 +29,8 @@ class GridCell(ABC):
 			return Fence()
 		if modifier == '%':
 			return Door()
+		if modifier == '&':
+			return Gate()
 		if modifier == 'c':
 			return Cop(' ' if content in string.whitespace else content) # just in case of tabs
 		if modifier == '$': # Player
@@ -54,6 +56,14 @@ class Fence(GridCell):
 	def draw(self, screen, x, y):
 		screen.blit(C.FENCE_IMG, (x, y))
 
+class Gate(GridCell):
+	def draw(self, screen, x, y):
+		screen.blit(C.GATE_IMG, (x, y))
+
+	@property
+	def occupiable(self):
+		return True
+
 class Door(GridCell):
 	def draw(self, screen, x, y):
 		screen.blit(C.DOOR_IMG, (x, y))
@@ -67,9 +77,8 @@ class Cop(GridCell):
 		super().__init__(char)
 		self.img = C.COP_IMG.convert_alpha()
 		text = C.COP_FONT.render(self.char, True, C.COP_TEXT_COLOR)
-		w, h = text.get_size()
 		dx, dy = C.COP_FONT_OFFSET
-		self.img.blit(text, (C.GRID_SCALE - w + dx, C.GRID_SCALE - h + dy))
+		self.img.blit(text, C.COP_FONT_OFFSET)
 
 	def draw(self, screen, x, y):
 		screen.blit(self.img, (x, y))

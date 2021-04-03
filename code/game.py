@@ -7,9 +7,10 @@ from code.helpers import *
 screen: pygame.Surface
 player: Player
 level: Level
+level_file: str
 
 def init_game():
-	global screen, player, level
+	global screen, player, level, level_file
 	pygame.init()
 	pygame.display.set_caption(C.SCREEN_TITLE)
 	pygame.key.set_repeat() # no args intentionally
@@ -17,12 +18,16 @@ def init_game():
 	player = Player()
 	load_level('00.txt')
 
+def next_level_file():
+	pass
+	# TODO
+	#look for level
+
 def exit_game():
 	pygame.quit()
 	sys.exit()
 
 def draw_game():
-	#screen.blit(C.BACKGROUND_IMG, (0, 0))
 	screen.fill(C.GRASS_COLOR)
 
 	level.draw(screen)
