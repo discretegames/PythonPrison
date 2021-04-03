@@ -8,7 +8,7 @@ from code.helpers import *
 screen: pygame.Surface
 player: Player
 level: Level
-start_level = '01.txt'
+start_level = f'{C.START_LEVEL:02d}.txt'
 level_file = start_level
 sandbox = 'sandbox.txt'
 won = last_won = permanent_won = False
@@ -94,14 +94,19 @@ def run_game():
 				elif event.key in (pygame.K_4, pygame.K_KP4):
 					corners[3] = True
 
-				skip_level = event.key == pygame.K_F9
+				skip_level = event.key == pygame.K_F10
 				if skip_level or permanent_won and event.key in (pygame.K_RETURN, pygame.K_KP_ENTER):
 					advance_level_file()
 					load_level(level_file)
 
-				restart_game = event.key == pygame.K_F10
+				restart_game = event.key == pygame.K_F9
 				if restart_game:
 					level_file = start_level
+					load_level(level_file)
+
+				skip_to_sandbox = event.key == pygame.K_F12
+				if skip_to_sandbox:
+					level_file = sandbox
 					load_level(level_file)
 
 				if not sprinting:
@@ -133,7 +138,9 @@ def run_game():
 			if not muted:
 				pygame.mixer.Sound.play(C.SUCCESS)
 			permanent_won = True
-			level.set_message(f"You escaped level {level.filename} in {player.move_count} moves! Press enter to continue...")
+			message = f"You escaped level {level.filename} in {player.move_count} moves!"
+			level.set_message(f"{message} Press enter to continue...")
+			print(message)
 
 	exit_game()
 

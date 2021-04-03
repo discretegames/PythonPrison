@@ -2,6 +2,10 @@ from code.helpers import *
 
 class C:
 	pygame.init()  # Initialize pygame so constant fonts and such can be created. Unrelated to welcome message replay.
+
+	# TODO make sure this starts at 1 when submitting
+	START_LEVEL = 1
+
 	SCREEN_TITLE = 'Python Prison - PyWeek31 entry by discretegames'
 	SCREEN_SIZE = 1600, 900
 	SCREEN_WIDTH, SCREEN_HEIGHT = SCREEN_SIZE
@@ -21,7 +25,7 @@ class C:
 	COP_FONT = pygame.font.Font(asset_path('OxygenMono.ttf'), int(.5 * GRID_SCALE))
 	COP_FONT_OFFSET = int(.5 * GRID_SCALE), int(.26 * GRID_SCALE)
 	LEVEL_TITLE_FONT = pygame.font.Font(asset_path('SimpleSlum.ttf'), 44)
-	MESSAGE_FONT = pygame.font.Font(asset_path('SimpleSlum.ttf'), 32)
+	MESSAGE_FONT = pygame.font.Font(asset_path('SimpleSlum.ttf'), 30)
 	FONT_VERT_OFFSET = 4
 
 	GRASS_COLOR = 75, 145, 45
@@ -64,7 +68,7 @@ Space = pull
 12 = set execution region
 34 = set output region
 R = run execution region
-Esc = reload level
+Esc = reset level
 M = toggle mute
 I = toggle info""".split('\n')
 

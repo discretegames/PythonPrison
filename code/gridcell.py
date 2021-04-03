@@ -45,6 +45,8 @@ class GridCell(ABC):
 		if modifier in '1234':
 			return modifier
 		if content in string.whitespace:
+			if modifier == '!':
+				return Char(' ', True)
 			return None
 		return Char(content, modifier == '!')
 

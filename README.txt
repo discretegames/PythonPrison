@@ -24,8 +24,6 @@ Space to pull blocks
 R to run the code in the blue execution area
 ESC to reload level
 M to mute
-Shift+F12 = skip level
-Ctrl+F12 = restart game
 
 Things used:
 https://www.1001fonts.com/pt-sans-font.html

@@ -12,7 +12,6 @@ class Level:
 		self.filename = filename[:-4] # clumsy way to remove .txt
 		self.grid = []
 		self.title = 'Some Level'
-		self.set_message('')
 		self.width, self.height = 0, 0
 		self.player_start_pos = 0, 0
 		self.player_start_dir = C.NORTH
@@ -34,13 +33,16 @@ class Level:
 		if lines:
 			self.title = lines[0].strip()
 		self.text = C.LEVEL_TITLE_FONT.render(self.title, True, C.LEVEL_TEXT_COLOR)
-		if len(lines) > 1:
-			args = [arg.lower() for arg in lines[1].split()]
+		initial_message = lines[1].strip() if len(lines) > 1 else ''
+		self.set_message(initial_message)
+
+		if len(lines) > 2:
+			args = [arg.lower() for arg in lines[2].split()]
 			if 'le' in args:
 				self.exec_region.lock()
 			if 'lo' in args:
 				self.out_region.lock()
-		self.load_grid(lines[2:])
+		self.load_grid(lines[3:])
 
 	def load_grid(self, file_grid_lines):
 		file_grid_lines = [line for line in file_grid_lines if line]

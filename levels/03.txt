@@ -1,0 +1,16 @@
+Level 03 - Bribing Cops
+Tip: Cops may let you by if you bribe them with their favorite symbol
+le lo
+######@@@@cA@@@@@@@@
+c | | @@| | | @@|A@@
+cA| | @@| !A| @@| @@
+c | | @@| | | @@| @@
+c | | @@| |B| cB| @@
+c | | @@| | | @@| @@
+c | | @@| $s| @@| @@
+cB| | cC| | | @@| @@
+c | | @@@@%%@@@@| @@
+c | | @@| | | @@| @@
+c | | @@| |C| | | @@
+c | | @@| | | @@ca@@
+######@@@@@@@@@@%%@@
