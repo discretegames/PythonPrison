@@ -8,7 +8,7 @@ class C:
 	pygame.init()  # Initialize pygame so constant fonts and such can be created. Unrelated to welcome message replay.
 
 	# TODO make sure this starts at 1 when submitting
-	START_LEVEL = 7
+	START_LEVEL = 9
 
 	SCREEN_TITLE = 'Python Prison - PyWeek31 entry by discretegames'
 	SCREEN_SIZE = WINDOW_SIZE
@@ -80,7 +80,8 @@ Space = pull
 R = run execution region
 Esc = reset level
 M = toggle mute
-I = toggle info""".split('\n')
+I = toggle info
+F10 = skip level""".split('\n')
 
 if __name__ == "__main__":
 	import code.game
