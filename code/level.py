@@ -25,7 +25,7 @@ class Level:
 		self.draw_rect = pygame.Rect(0, 0, C.GRID_SCALE * self.width, C.GRID_SCALE * self.height)
 
 	def set_message(self, message):
-		self.message = C.ERROR_FONT.render(message, True, C.LEVEL_TEXT_COLOR)
+		self.message = C.MESSAGE_FONT.render(message, True, C.LEVEL_TEXT_COLOR)
 
 	def load_level(self, filename):
 		path = asset_path(filename, 'levels')

@@ -21,7 +21,7 @@ class C:
 	COP_FONT = pygame.font.Font(asset_path('OxygenMono.ttf'), int(.5 * GRID_SCALE))
 	COP_FONT_OFFSET = int(.5 * GRID_SCALE), int(.26 * GRID_SCALE)
 	LEVEL_TITLE_FONT = pygame.font.Font(asset_path('SimpleSlum.ttf'), 44)
-	ERROR_FONT = pygame.font.Font(asset_path('SimpleSlum.ttf'), 32)
+	MESSAGE_FONT = pygame.font.Font(asset_path('SimpleSlum.ttf'), 32)
 	FONT_VERT_OFFSET = 4
 
 	GRASS_COLOR = 75, 145, 45
@@ -54,6 +54,19 @@ class C:
 	MUSIC = asset_path('music.wav')
 	VOLUME = 0.5
 	SUCCESS = pygame.mixer.Sound(asset_path('success.wav'))
+
+	INFO_OFFSET = 4
+	INFO_HEIGHT = 16
+	INFO_FONT = pygame.font.Font(asset_path('PTSans.ttf'), INFO_HEIGHT - 2)
+	INFO = """WASD/Arrows = move
+Shift = sprint
+Space = pull
+12 = set execution area
+34 = set output area
+R = run execution area
+Esc = reload level
+M = toggle mute
+I = toggle info""".split('\n')
 
 if __name__ == "__main__":
 	import code.game

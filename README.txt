@@ -8,6 +8,10 @@ Game Title: Python Prison
 
 Made by @discretegames
 
+Usage:
+pip install -r requirements.txt
+python run_game.py
+
 Controls:
 
 WASD or Arrows to move
@@ -22,6 +26,7 @@ ESC to reload level
 M to mute
 
 Things used:
+https://www.1001fonts.com/pt-sans-font.html
 https://www.dafont.com/simple-slum-g.font
 https://fonts.google.com/specimen/Oxygen+Mono
 https://freesound.org/people/djfroyd/sounds/331679/

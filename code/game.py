@@ -12,16 +12,16 @@ level_file = '01.txt'
 sandbox = 'sandbox.txt'
 won = last_won = permanent_won = False
 muted = False
+show_info = True
 
 def init_game():
-	global screen, player, level, level_file
+	global screen, player, level, level_file, info
 	pygame.init()
 	pygame.display.set_caption(C.SCREEN_TITLE)
 	pygame.key.set_repeat() # no args intentionally
 	screen = pygame.display.set_mode(C.SCREEN_SIZE)
 	player = Player()
 	load_level(level_file)
-
 	pygame.mixer.music.load(C.MUSIC)
 	pygame.mixer.music.set_volume(C.VOLUME)
 	pygame.mixer.music.play(-1)
@@ -42,6 +42,12 @@ def draw_game():
 	screen.fill(C.GRASS_COLOR)
 	level.draw(screen)
 	player.draw(screen)
+
+	if show_info:
+		for y, line in enumerate(C.INFO):
+			info = C.INFO_FONT.render(line, True, C.LEVEL_TEXT_COLOR)
+			screen.blit(info, (C.INFO_OFFSET, y * C.INFO_HEIGHT))
+
 	pygame.display.update()
 
 def load_level(filename):
@@ -75,7 +81,9 @@ def run_game():
 					global muted
 					pygame.mixer.music.set_volume(C.VOLUME if muted else 0)
 					muted = not muted
-
+				elif event.key == pygame.K_i:
+					global show_info
+					show_info = not show_info
 				elif event.key in (pygame.K_r, pygame.K_F5):
 					level.start_exec()
 				elif event.key in (pygame.K_1, pygame.K_KP1):
