@@ -8,10 +8,11 @@ from code.region import Region
 import random
 
 class Level:
-	def __init__(self, filename, player, message=''):
+	def __init__(self, filename, player):
+		self.filename = filename[:-4] # clumsy way to remove .txt
 		self.grid = []
 		self.title = 'Some Level'
-		self.set_message(message)
+		self.set_message('')
 		self.width, self.height = 0, 0
 		self.player_start_pos = 0, 0
 		self.player_start_dir = C.NORTH

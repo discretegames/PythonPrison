@@ -1,11 +1,12 @@
 import os
 import pygame
-import random
 
 def asset_path(filename, folder='assets'):
 	path = os.path.join(folder, filename)
 	if not os.path.exists(path): # Check parent directory as we may be executing from code folder.
 		path = os.path.join(os.pardir, path)
+	if not os.path.exists(path):
+		return None
 	return path
 
 def load_image(name, resize=None):

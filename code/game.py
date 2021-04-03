@@ -1,4 +1,5 @@
 import sys
+import pygame
 from code.player import Player
 from code.level import Level
 from code.constants import C
@@ -7,7 +8,10 @@ from code.helpers import *
 screen: pygame.Surface
 player: Player
 level: Level
-level_file: str
+level_file = '01.txt'
+sandbox = 'sandbox.txt'
+won = last_won = permanent_won = False
+muted = False
 
 def init_game():
 	global screen, player, level, level_file
@@ -16,12 +20,19 @@ def init_game():
 	pygame.key.set_repeat() # no args intentionally
 	screen = pygame.display.set_mode(C.SCREEN_SIZE)
 	player = Player()
-	load_level('00.txt')
+	load_level(level_file)
 
-def next_level_file():
-	pass
-	# TODO
-	#look for level
+	pygame.mixer.music.load(C.MUSIC)
+	pygame.mixer.music.set_volume(C.VOLUME)
+	pygame.mixer.music.play(-1)
+
+def advance_level_file():
+	global level_file
+	if level_file != sandbox:
+		num = int(level_file[:-4])
+		level_file = str(num + 1).zfill(2) + '.txt'
+		if not asset_path(level_file, 'levels'):
+			level_file = sandbox
 
 def exit_game():
 	pygame.quit()
@@ -35,11 +46,15 @@ def draw_game():
 	pygame.display.update()
 
 def load_level(filename):
-	global level
+	global level, won, last_won, permanent_won
 	level = Level(filename, player)
 	player.change_level(level)
+	won = last_won = permanent_won = False
+	player.move_count = 0
 
 def run_game():
+	global won, last_won, permanent_won
+
 	init_game()
 	clock = pygame.time.Clock()
 	running = True
@@ -57,7 +72,12 @@ def run_game():
 				running = False
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_ESCAPE:
-					load_level('00.txt')  # reload level
+					load_level(level_file)  # reload level
+				elif event.key == pygame.K_m:
+					global muted
+					pygame.mixer.music.set_volume(0 if muted else C.VOLUME)
+					muted = not muted
+
 				elif event.key in (pygame.K_r, pygame.K_F5):
 					level.start_exec()
 				elif event.key in (pygame.K_1, pygame.K_KP1):
@@ -68,6 +88,10 @@ def run_game():
 					corners[2] = True
 				elif event.key in (pygame.K_4, pygame.K_KP4):
 					corners[3] = True
+
+				if permanent_won and event.key in (pygame.K_RETURN, pygame.K_KP_ENTER):
+					advance_level_file()
+					load_level(level_file)
 
 				if not sprinting:
 					if event.key in (pygame.K_w, pygame.K_UP):
@@ -89,9 +113,14 @@ def run_game():
 			if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
 				kx += 1
 
-		player.update(dt, kx, ky, pulling)
+		last_won = won
+		won = player.update(dt, kx, ky, pulling)
 		level.update(corners)
 		draw_game()
+
+		if not last_won and won and level_file != sandbox:
+			permanent_won = True
+			level.set_message(f"You escaped level {level.filename} in {player.move_count} moves! Press enter to continue...")
 
 	exit_game()
 

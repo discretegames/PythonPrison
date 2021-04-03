@@ -51,6 +51,9 @@ class C:
 	LOCKED_CHAR_IMG = load_image('locked', GRID_SCALE)
 	CODE_HEADER = 'global p,r;open=None;p=print;r=range;\n'
 
+	MUSIC = asset_path('music.wav')
+	VOLUME = 0.5
+
 if __name__ == "__main__":
 	import code.game
 	code.game.run_game()

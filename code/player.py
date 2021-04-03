@@ -4,6 +4,7 @@ from code.helpers import *
 class Player:
 	def __init__(self):
 		self.moving = False
+		self.move_count = 0
 		self.direction = C.NORTH
 		self.x, self.y = 0, 0
 		self.fx, self.fy = 0, 0
@@ -26,6 +27,7 @@ class Player:
 		self.x, self.y = level.player_start_pos
 		self.set_direction(level.player_start_dir)
 		self.stop_moving(False)
+		self.move_count = 0
 
 	def draw(self, screen):
 		screen.blit(self.sprite, self.draw_rect.topleft)
@@ -60,6 +62,7 @@ class Player:
 				self.x += self.dx
 			else:
 				self.y += self.dy
+			self.move_count += 1
 		self.fx, self.fy = self.x, self.y
 		self.dx, self.dy = 0, 0
 		return not self.level.in_bounds(self.x, self.y)
