@@ -8,7 +8,8 @@ from code.helpers import *
 screen: pygame.Surface
 player: Player
 level: Level
-level_file = '01.txt'
+start_level = '01.txt'
+level_file = start_level
 sandbox = 'sandbox.txt'
 won = last_won = permanent_won = False
 muted = False
@@ -58,7 +59,7 @@ def load_level(filename):
 	player.move_count = 0
 
 def run_game():
-	global won, last_won, permanent_won, muted, show_info
+	global won, last_won, permanent_won, muted, show_info, level_file
 	init_game()
 	clock = pygame.time.Clock()
 	running = True
@@ -93,9 +94,14 @@ def run_game():
 				elif event.key in (pygame.K_4, pygame.K_KP4):
 					corners[3] = True
 
-				skip_level = event.key == pygame.K_F12 and pygame.key.get_mods() & pygame.KMOD_CTRL
+				skip_level = event.key == pygame.K_F9
 				if skip_level or permanent_won and event.key in (pygame.K_RETURN, pygame.K_KP_ENTER):
 					advance_level_file()
+					load_level(level_file)
+
+				restart_game = event.key == pygame.K_F10
+				if restart_game:
+					level_file = start_level
 					load_level(level_file)
 
 				if not sprinting:

@@ -36,9 +36,9 @@ class Level:
 		self.text = C.LEVEL_TITLE_FONT.render(self.title, True, C.LEVEL_TEXT_COLOR)
 		if len(lines) > 1:
 			args = [arg.lower() for arg in lines[1].split()]
-			if 'lockexec' in args:
+			if 'le' in args:
 				self.exec_region.lock()
-			if 'lockout' in args:
+			if 'lo' in args:
 				self.out_region.lock()
 		self.load_grid(lines[2:])
 

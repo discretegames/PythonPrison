@@ -61,9 +61,9 @@ class C:
 	INFO = """WASD/Arrows = move
 Shift = sprint
 Space = pull
-12 = set execution area
-34 = set output area
-R = run execution area
+12 = set execution region
+34 = set output region
+R = run execution region
 Esc = reload level
 M = toggle mute
 I = toggle info""".split('\n')
