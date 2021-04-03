@@ -1,3 +1,7 @@
+# Modify the line below to change the game window size. e.g (1280, 720) or (1600, 900) or (1920, 1080)
+WINDOW_SIZE = 1424, 800
+# Modify the line above to change the game window size.
+
 from code.helpers import *
 
 class C:
@@ -7,8 +11,13 @@ class C:
 	START_LEVEL = 1
 
 	SCREEN_TITLE = 'Python Prison - PyWeek31 entry by discretegames'
-	SCREEN_SIZE = 1600, 900
+	SCREEN_SIZE = WINDOW_SIZE
 	SCREEN_WIDTH, SCREEN_HEIGHT = SCREEN_SIZE
+
+	@staticmethod
+	def set_screen_size(width, height):
+		C.SCREEN_SIZE = width, height
+		C.SCREEN_WIDTH, SCREEN_HEIGHT = C.SCREEN_SIZE
 
 	FPS = 60
 	GRID_SCALE = 32

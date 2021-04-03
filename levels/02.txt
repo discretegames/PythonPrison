@@ -1,5 +1,5 @@
-Level 02 - Secret Exit
-Tip: Hold space while facing a block to pull it
+Level 02 - Learning to pull
+Hold space while facing a block to pull it
 le lo
 ##########&&##########
 ##| | | | c | | | | ##

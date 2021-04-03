@@ -1,9 +1,12 @@
 import sys
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 from code.player import Player
 from code.level import Level
 from code.constants import C
 from code.helpers import *
+from datetime import datetime
 
 screen: pygame.Surface
 player: Player
@@ -38,6 +41,7 @@ def advance_level_file():
 
 def exit_game():
 	pygame.quit()
+	print(f"Ended game at {datetime.now()}")
 	sys.exit()
 
 def draw_game():
@@ -60,6 +64,8 @@ def load_level(filename):
 	player.move_count = 0
 
 def run_game():
+	print(f"Started game at {datetime.now()}")
+
 	global won, last_won, permanent_won, muted, show_info, level_file, started
 	init_game()
 	clock = pygame.time.Clock()

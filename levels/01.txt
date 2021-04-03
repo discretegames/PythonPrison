@@ -1,5 +1,5 @@
-Level 01 - First Prison Escape
-The goal is always to make it to the grass
+Level 01 - Learning to escape
+The goal is always to escape the prison to the grass
 le lo
 @@@@@@@@@@@@@@@@@@%%@@@@@@@@@@@@
 @@| | | @@| | | |W|A|S|D| | | @@
