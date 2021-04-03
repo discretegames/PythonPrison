@@ -78,9 +78,10 @@ Space = pull
 34 = set output region
 R = run execution region
 Esc = reset level
-F10 = skip level
 M = toggle mute
-I = toggle info""".split('\n')
+I = toggle info
+F9 = main menu
+F10 = skip level""".split('\n')
 
 if __name__ == "__main__":
 	import code.game

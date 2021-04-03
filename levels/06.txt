@@ -1,10 +1,10 @@
-Level 06 - The Lineup
-Use 3 to set the top left and 4 to set the bottom right of the output region
+Level 06 - The Lineup Loop
+Press 3 to set the top left and 4 to set the bottom right of the output region
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@| | | | | | | | | | | | | | @@
 @@| 11| | | | | | | | | | 33| @@
-@@| | !i!=!1!0| | | | | | | | @@
+@@| | !i!=!1!0| | | | | | 44| @@
 @@| | !w!h!i!l!e! !i!:| | | | @@
 @@| &&|#!p!(!i!)| | | | | | | @@
 @@| &&|#!i!-!=!1| | | | | | | @@
