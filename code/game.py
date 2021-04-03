@@ -40,7 +40,6 @@ def exit_game():
 
 def draw_game():
 	screen.fill(C.GRASS_COLOR)
-
 	level.draw(screen)
 	player.draw(screen)
 	pygame.display.update()
