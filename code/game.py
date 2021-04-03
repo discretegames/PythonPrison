@@ -14,6 +14,7 @@ sandbox = 'sandbox.txt'
 won = last_won = permanent_won = False
 muted = False
 show_info = True
+started = False
 
 def init_game():
 	global screen, player, level, level_file
@@ -59,12 +60,13 @@ def load_level(filename):
 	player.move_count = 0
 
 def run_game():
-	global won, last_won, permanent_won, muted, show_info, level_file
+	global won, last_won, permanent_won, muted, show_info, level_file, started
 	init_game()
 	clock = pygame.time.Clock()
 	running = True
 
 	while running:
+
 		dt = clock.tick(C.FPS) / 1000
 		keys = pygame.key.get_pressed()
 		sprinting = keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]
@@ -94,20 +96,29 @@ def run_game():
 				elif event.key in (pygame.K_4, pygame.K_KP4):
 					corners[3] = True
 
+				enter_hit = event.key in (pygame.K_RETURN, pygame.K_KP_ENTER)
+
 				skip_level = event.key == pygame.K_F10
-				if skip_level or permanent_won and event.key in (pygame.K_RETURN, pygame.K_KP_ENTER):
-					advance_level_file()
+				if skip_level or permanent_won and enter_hit:
+					if not started:
+						started = True
+					else:
+						advance_level_file()
+						load_level(level_file)
+
+				skip_to_sandbox = event.key == pygame.K_F12
+				if skip_to_sandbox:
+					level_file = sandbox
 					load_level(level_file)
 
 				restart_game = event.key == pygame.K_F9
 				if restart_game:
 					level_file = start_level
 					load_level(level_file)
+					started = False
 
-				skip_to_sandbox = event.key == pygame.K_F12
-				if skip_to_sandbox:
-					level_file = sandbox
-					load_level(level_file)
+				if not started and enter_hit or skip_to_sandbox:
+					started = True
 
 				if not sprinting:
 					if event.key in (pygame.K_w, pygame.K_UP):
@@ -118,6 +129,11 @@ def run_game():
 						kx -= 1
 					elif event.key in (pygame.K_d, pygame.K_RIGHT):
 						kx += 1
+
+		if not started:
+			screen.blit(C.MENU_IMG, (0, 0))
+			pygame.display.update()
+			continue
 
 		if sprinting:
 			if keys[pygame.K_w] or keys[pygame.K_UP]:

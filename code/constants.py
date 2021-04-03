@@ -45,6 +45,7 @@ class C:
 	OUT_LOCKED_COLOR = 153, 66, 79 # good
 	REGION_RECT_RADIUS = 10
 
+	MENU_IMG = load_image('menu', SCREEN_SIZE)
 	PLAYER_IMG = load_image('player', GRID_SCALE)
 	WALL_IMG = load_image('wall', GRID_SCALE)
 	FENCE_IMG = load_image('fence', GRID_SCALE)
