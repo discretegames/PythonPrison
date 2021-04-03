@@ -1,5 +1,5 @@
 Level 03 - Learning to Bribe
-Cops may let you by if you bribe them with their favorite symbol
+Cops may let you by if you bribe them with their favorite letter
 le lo
 ######@@@@cA@@@@@@@@
 c | | @@| | | @@|A@@
@@ -11,6 +11,6 @@ c | | @@| $s| @@| @@
 cB| | cC| | | @@| @@
 c | | @@@@%%@@@@| @@
 c | | @@| | | @@| @@
-c | | @@| |C| | | @@
+cC| | @@| |C| | | @@
 c | | @@| | | @@ca@@
 ######@@@@@@@@@@%%@@

@@ -1,5 +1,5 @@
-Level 04 - Learning to run code
-Press R to run code in the blue region - output goes to the red region
+Level 04 - Learning to execute
+Press R to run the code in the blue region - the output ends up in the red region
 le lo
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@| | | | | | | | | | | | | | | | | | | | | | | | | @@
