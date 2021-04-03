@@ -12,3 +12,4 @@ Made by @discretegames
 Used sounds:
 
 https://freesound.org/people/djfroyd/sounds/331679/
+https://freesound.org/people/InspectorJ/sounds/484267/

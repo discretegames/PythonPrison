@@ -54,7 +54,6 @@ def load_level(filename):
 
 def run_game():
 	global won, last_won, permanent_won
-
 	init_game()
 	clock = pygame.time.Clock()
 	running = True
@@ -75,7 +74,7 @@ def run_game():
 					load_level(level_file)  # reload level
 				elif event.key == pygame.K_m:
 					global muted
-					pygame.mixer.music.set_volume(0 if muted else C.VOLUME)
+					pygame.mixer.music.set_volume(C.VOLUME if muted else 0)
 					muted = not muted
 
 				elif event.key in (pygame.K_r, pygame.K_F5):
@@ -113,12 +112,14 @@ def run_game():
 			if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
 				kx += 1
 
-		last_won = won
+		last_won = won or permanent_won
 		won = player.update(dt, kx, ky, pulling)
 		level.update(corners)
 		draw_game()
 
 		if not last_won and won and level_file != sandbox:
+			if not muted:
+				pygame.mixer.Sound.play(C.SUCCESS)
 			permanent_won = True
 			level.set_message(f"You escaped level {level.filename} in {player.move_count} moves! Press enter to continue...")
 

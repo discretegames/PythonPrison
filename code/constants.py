@@ -53,6 +53,7 @@ class C:
 
 	MUSIC = asset_path('music.wav')
 	VOLUME = 0.5
+	SUCCESS = pygame.mixer.Sound(asset_path('success.wav'))
 
 if __name__ == "__main__":
 	import code.game
