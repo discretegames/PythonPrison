@@ -17,7 +17,7 @@ sandbox = 'sandbox.txt'
 won = last_won = permanent_won = False
 muted = False
 show_info = True
-started = False
+started = not start_level.startswith('01')
 
 def init_game():
 	global screen, player, level, level_file
