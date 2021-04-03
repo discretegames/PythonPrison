@@ -2,32 +2,35 @@ An entry for the PyWeek31 week-long game jam contest https://pyweek.org/31/
 
 Theme: "Cops"
 
-Idea: You are in a prison and have to build and execute code to work and bribe your way out.
+Idea: You are in a prison and have to build and execute code to bribe your way out.
 
-Game Title: Python Prison
+Game title: Python Prison
 
-Made by @discretegames
+Made by: @discretegames
 
 Usage:
+
 pip install -r requirements.txt
 python run_game.py
 
+
 Controls:
 
-WASD or Arrows to move
-Shift to sprint
-Space to pull blocks
-1 to set top left of blue execution area
-2 to set bottom right of blue execution area
-3 to set top left of red output area
-4 to set bottom right of blue execution area
-R to run the code in the blue execution area
-ESC to reload level
-M to mute
+WASD/Arrows = move
+Shift = sprint
+Space = pull
+12 = set execution region
+34 = set output region
+R = run execution region
+Esc = reset level
+M = toggle mute
+I = toggle info
 
-Things used:
-https://www.1001fonts.com/pt-sans-font.html
+
+Resources used:
+
 https://www.dafont.com/simple-slum-g.font
+https://www.1001fonts.com/pt-sans-font.html
 https://fonts.google.com/specimen/Oxygen+Mono
 https://freesound.org/people/djfroyd/sounds/331679/
 https://freesound.org/people/InspectorJ/sounds/484267/
