@@ -1,6 +1,6 @@
 # Python Prison by discretegames
 
-###A solo entry for the "Cops" themed [PyWeek31 week-long game jam contest](https://pyweek.org/31)
+### A solo entry for the "Cops" themed [PyWeek31 week-long game jam contest](https://pyweek.org/31)
 
 ### Entry page: https://pyweek.org/e/pythonprison
 
