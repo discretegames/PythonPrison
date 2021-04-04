@@ -15,7 +15,8 @@ Or possibly, depending on your Python installation:
     python3 run_game.py
 
 The game was built using in Python 3.9.2 and has been tested with 3.8.5 and 3.9.4 on Windows 10 and Linux Mint.  
-The only requirement is pygame version 2.0.1 or higher.
+The only requirement is pygame version 2.0.1 or higher.  
+The game has not been tested on Mac OS.
 
 ## Controls
 - WASD/Arrows - move
@@ -40,9 +41,9 @@ A full playthrough of the game be seen at: https://www.youtube.com/watch?v=_z8ls
 [![Python Prison demo gif](https://user-images.githubusercontent.com/35741644/113521908-6daee480-9551-11eb-86cd-2ee0878969e9.gif)](https://www.youtube.com/watch?v=_z8lsIEQa9I)
 
 ## Resources used:
-- https://www.dafont.com/simple-slum-g.font
-- https://www.1001fonts.com/pt-sans-font.html
-- https://fonts.google.com/specimen/Oxygen+Mono
-- https://freesound.org/people/djfroyd/sounds/331679/
-- https://freesound.org/people/InspectorJ/sounds/484267/
+- Simple Slum font - https://www.dafont.com/simple-slum-g.font
+- PT Sans font - https://www.1001fonts.com/pt-sans-font.html
+- Oxygen Mono font - https://fonts.google.com/specimen/Oxygen+Mono
+- "Blip rhythm loop.wav" by djfroyd - https://freesound.org/people/djfroyd/sounds/331679/
+- "Party Pack, Horn Coil 01, Long, 01.wav" by J Inspector - https://freesound.org/people/InspectorJ/sounds/484267/
 - PyGame - https://www.pygame.org
