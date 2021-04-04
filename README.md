@@ -33,6 +33,12 @@ The only requirement is pygame version 2.0.1 or higher.
 - F10 skip level (cheating!)
 - F12 skip to sandbox (cheating!)
 
+## Playthrough Video
+
+A full playthrough of the game be seen at: https://www.youtube.com/watch?v=_z8lsIEQa9I
+
+[![Python Prison demo gif](https://user-images.githubusercontent.com/35741644/113521908-6daee480-9551-11eb-86cd-2ee0878969e9.gif)](https://www.youtube.com/watch?v=_z8lsIEQa9I)
+
 ## Resources used:
 - https://www.dafont.com/simple-slum-g.font
 - https://www.1001fonts.com/pt-sans-font.html
