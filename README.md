@@ -4,6 +4,8 @@
 
 ### Entry page: https://pyweek.org/e/pythonprison
 
+Python Prison is a puzzle game where you have to bribe cops and write Python programs to break out of jail!
+
 To play, download the files and run these commands in terminal:
 
     pip install -r requirements.txt
