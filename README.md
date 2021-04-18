@@ -2,6 +2,8 @@
 
 ### A solo entry for the "Cops" themed [PyWeek 31 week-long game jam contest](https://pyweek.org/31)
 
+[🏆 Python Prison tied for first place in the individuals category! 🏆](https://pyweek.org/31/)
+
 ### Entry page: https://pyweek.org/e/pythonprison
 
 Python Prison is a puzzle game where you have to bribe cops and write Python programs to break out of jail!
