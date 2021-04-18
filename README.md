@@ -2,7 +2,7 @@
 
 ### A solo entry for the "Cops" themed [PyWeek 31 week-long game jam contest](https://pyweek.org/31)
 
-[🏆 Python Prison tied for first place in the individuals category! 🏆](https://pyweek.org/31/)
+[🏆 Python Prison tied for first place in the individuals category! 🏆](https://pyweek.org/31/ratings/)
 
 ### Entry page: https://pyweek.org/e/pythonprison
 
